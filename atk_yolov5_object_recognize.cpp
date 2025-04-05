@@ -39,6 +39,10 @@ int main(int argc, char *argv[])
   }
 
   RK_MPI_SYS_Init();
+  ///
+  //////
+  ////
+  ///
   VI_CHN_ATTR_S vi_chn_attr_01;
   memset(&vi_chn_attr_01, 0, sizeof(vi_chn_attr_01));
   vi_chn_attr_01.pcVideoNode = pDeviceName_01;
@@ -59,7 +63,7 @@ int main(int argc, char *argv[])
   RGA_ATTR_S stRgaAttr_01;
   memset(&stRgaAttr_01, 0, sizeof(stRgaAttr_01));
   stRgaAttr_01.bEnBufPool = RK_TRUE;
-  stRgaAttr_01.u16BufPoolCnt = 3;
+  stRgaAttr_01.u16BufPoolCnt = 4;
   stRgaAttr_01.u16Rotaion = 0;
   stRgaAttr_01.stImgIn.u32X = 0;
   stRgaAttr_01.stImgIn.u32Y = 0;
@@ -196,24 +200,6 @@ static void printRKNNTensor(rknn_tensor_attr *attr)
 }
 
 
-int rgb24_resize(unsigned char *input_rgb, unsigned char *output_rgb, 
-                 int width,int height, int outwidth, int outheight)
-{
-  rga_buffer_t src =wrapbuffer_virtualaddr(input_rgb, width, height, RK_FORMAT_RGB_888);
-  rga_buffer_t dst = wrapbuffer_virtualaddr(output_rgb, outwidth, outheight,RK_FORMAT_RGB_888);
-  rga_buffer_t pat = {0};
-  im_rect src_rect = {0, 0, width, height};
-  im_rect dst_rect = {0, 0, outwidth, outheight};
-  im_rect pat_rect = {0};
-  IM_STATUS STATUS = improcess(src, dst, pat, src_rect, dst_rect, pat_rect, 0);
-  if (STATUS != IM_STATUS_SUCCESS)
-  {
-    printf("imcrop failed: %s\n", imStrError(STATUS));
-    return -1;
-  }
-  return 0;
-}
-
 
 void *rkmedia_rknn_thread(void *args)
 {
@@ -316,111 +302,17 @@ void *rkmedia_rknn_thread(void *args)
   
     // init rga context
     RGA_init(&rga_ctx);
+    MEDIA_BUFFER src_mb = NULL;
   while (!quit)
   {
-    // thread_statistic.begin(Stage::IM_PREPROCESS);
+    thread_statistic.begin(Stage::IM_PREPROCESS);
     
-    fps_ctx.calculate_fps(&fps_ctx);
-     
-    MEDIA_BUFFER src_mb = NULL;
     src_mb = RK_MPI_SYS_GetMediaBuffer(RK_ID_RGA, 0, -1);
     if (!src_mb)
     {
       printf("ERROR: RK_MPI_SYS_GetMediaBuffer get null buffer!\n");
       break;
     }
-
-    /*================================================================================
-      =========================使用drm拷贝，可以使用如下代码===========================
-      ================================================================================*/
-    /*
-    rga_context rga_ctx;
-    drm_context drm_ctx;
-    memset(&rga_ctx, 0, sizeof(rga_context));
-    memset(&drm_ctx, 0, sizeof(drm_context));
-     // DRM alloc buffer
-    int drm_fd = -1;
-    int buf_fd = -1; // converted from buffer handle
-    unsigned int handle;
-    size_t actual_size = 0;
-    void *drm_buf = NULL;
- thread_statistic.begin(Stage::IM_PREPROCESS);
-    drm_fd = drm_init(&drm_ctx);
-    drm_buf = drm_buf_alloc(&drm_ctx, drm_fd, video_width, video_height, channel * 8, &buf_fd, &handle, &actual_size);
-    memcpy(drm_buf, (uint8_t *)RK_MPI_MB_GetPtr(src_mb) , video_width * video_height * channel);
-    void *resize_buf = malloc(height * width * channel);
-    // init rga context
-    thread_statistic.end();
-     thread_statistic.begin(Stage::IM_PREPROCESS);
-    RGA_init(&rga_ctx);
-    img_resize_slow(&rga_ctx, drm_buf, video_width, video_height, resize_buf, width, height);
-    uint32_t input_model_image_size = width * height * channel;
-    thread_statistic.end();
-    
-
-    // Set Input Data
-    rknn_input inputs[1];
-    memset(inputs, 0, sizeof(inputs));
-    inputs[0].index = 0;
-    inputs[0].type = RKNN_TENSOR_UINT8;
-    inputs[0].size = input_model_image_size;
-    inputs[0].fmt = RKNN_TENSOR_NHWC;
-    inputs[0].buf = resize_buf;
-    ret = rknn_inputs_set(ctx, io_num.n_input, inputs);
-    */
-    /*?????????????*/
-    /*?????????????*/
-    /*?????????????*/
-    /*io_num.n_input=????*/
-    /*?????????????*/
-    /*?????????????*/
-    /*?????????????*/
-    /*
-    if (ret < 0)
-    {
-      printf("ERROR: rknn_inputs_set fail! ret=%d\n", ret);
-      return NULL;
-    }
-    free(resize_buf);
-    drm_buf_destroy(&drm_ctx, drm_fd, buf_fd, handle, drm_buf, actual_size);
-    drm_deinit(&drm_ctx, drm_fd);
-    RGA_deinit(&rga_ctx);
-
-    */
-    /*================================================================================
-      =========================不使用drm拷贝，可以使用如下代码===========================
-      ================================================================================*/
-      thread_statistic.begin(Stage::IM_PREPROCESS);
-    rkMB_IMAGE_INFO ImageInfo={0};
-    RK_MPI_MB_GetImageInfo(src_mb,&ImageInfo);
-    uint32_t orig_image_size = RK_MPI_MB_GetSize(src_mb);
-    unsigned char *orig_image_buf = (unsigned char *)RK_MPI_MB_GetPtr(src_mb);
-
-
-    /*
-    uint32_t input_model_image_size = width * height * channel;
-    unsigned char *input_model_image_buf = (unsigned char *)malloc(input_model_image_size);
-    rgb24_resize(orig_image_buf, input_model_image_buf, video_width, video_height, width, height);
-
-    // Set Input Data
-    rknn_input inputs[1];
-    memset(inputs, 0, sizeof(inputs));
-    inputs[0].index = 0;
-    inputs[0].type = RKNN_TENSOR_UINT8;
-    inputs[0].size = input_model_image_size;
-    inputs[0].fmt = RKNN_TENSOR_NHWC;
-    inputs[0].buf = input_model_image_buf;
-    ret = rknn_inputs_set(ctx, io_num.n_input, inputs);
-    if (ret < 0)
-    {
-      printf("ERROR: rknn_inputs_set fail! ret=%d\n", ret);
-      return NULL;
-    }
-    free(input_model_image_buf);
-    
-
-    thread_statistic.end();
-    */
 
 
     /*零拷贝*/
@@ -436,6 +328,8 @@ void *rkmedia_rknn_thread(void *args)
     
     // Run
     printf("rknn_run\n");
+    printf("run\n");
+    thread_statistic.end();
     // thread_statistic.end();
     thread_statistic.begin(Stage::INFERENCE);
     ret = rknn_run(ctx, nullptr);
@@ -446,19 +340,7 @@ void *rkmedia_rknn_thread(void *args)
       return NULL;
     }
     thread_statistic.begin(Stage::POSTPROCESS_RENDER);
-    // Get Output
-    // rknn_output outputs[io_num.n_output];
-    // memset(outputs, 0, sizeof(outputs));
-    // for (int i = 0; i < io_num.n_output; i++)
-    // {
-    //     outputs[i].want_float = 0;
-    // }
-    // ret = rknn_outputs_get(ctx, io_num.n_output, outputs, NULL);
-    // if (ret < 0)
-    // {
-    //   printf("ERROR: rknn_outputs_get fail! ret=%d\n", ret);
-    //   return NULL;
-    // }
+
 
     detect_result_group_t detect_result_group;
     memset(&detect_result_group, 0, sizeof(detect_result_group));
@@ -476,8 +358,7 @@ void *rkmedia_rknn_thread(void *args)
     float scale_w = (float)width / video_width;
     float scale_h = (float)height / video_height;
 
-    // post_process((uint8_t *)outputs[0].buf, (uint8_t *)outputs[1].buf, (uint8_t *)outputs[2].buf, height, width,
-    //              conf_threshold, nms_threshold, vis_threshold, scale_w, scale_h, out_zps, out_scales, &detect_result_group);
+
 
     post_process((uint8_t *)outputs_mem[0]->logical_addr, (uint8_t *)outputs_mem[1]->logical_addr, (uint8_t *)outputs_mem[2]->logical_addr, height, width,
     conf_threshold, nms_threshold,vis_threshold, scale_w, scale_h, out_zps, out_scales, &detect_result_group);
@@ -521,13 +402,7 @@ void *rkmedia_rknn_thread(void *args)
 
       // 采用opencv来绘制矩形框,颜色格式是B、G、R
       using namespace cv;
-      /*????????????????????*/
-      /*????????????????????*/
-      /*????????????????????*/
-      /*opencv mat类型，rectangle？？？？*/
-      /*????????????????????*/
-      /*????????????????????*/
-      /*????????????????????*/
+
       Mat orig_img = Mat(video_height, video_width, CV_8UC3, RK_MPI_MB_GetPtr(src_mb));//黑白灰图案
       cv::rectangle(orig_img,cv::Point(left, top),cv::Point(right, bottom),cv::Scalar(0,255,255),5,8,0);
       putText(orig_img, detect_result_group.results[i].name, Point(left, top-16), FONT_HERSHEY_TRIPLEX, 3, Scalar(0,0,255),4,8,0);
@@ -542,46 +417,19 @@ void *rkmedia_rknn_thread(void *args)
                 4,
                 8,
                 1);
-    // //   printf("fps_text:%s\n",fps_text);
-      //     rknn_perf_detail perf_detail;
-      // ret = rknn_query(ctx, RKNN_QUERY_PERF_DETAIL, &perf_detail,
-      // sizeof(rknn_perf_detail));
-      // printf("%s", perf_detail.perf_data);
-      thread_statistic.end();
-    }
 
-    // rknn_outputs_release(ctx, io_num.n_output, outputs);
 
-    
-    // rga_buffer_t src , dst ;
-    // MB_IMAGE_INFO_S dst_ImageInfo = {(RK_U32)video_width, (RK_U32)video_height, (RK_U32)video_width, 
-    //                                  (RK_U32)video_height, IMAGE_TYPE_RGB888};
-    // MEDIA_BUFFER dst_mb = RK_MPI_MB_CreateImageBuffer(&dst_ImageInfo, RK_TRUE, 0);
-    // dst = wrapbuffer_fd(RK_MPI_MB_GetFD(dst_mb), video_width, video_height,RK_FORMAT_RGB_888);
-    // src = wrapbuffer_fd(RK_MPI_MB_GetFD(src_mb), video_width, video_height,RK_FORMAT_RGB_888);
-    
-    // im_rect src_rect , dst_rect;
-    // src_rect = {0, 0, 2592, 1944};
-    // dst_rect = {0};
-    // ret = imcheck(src, dst, src_rect, dst_rect, IM_CROP);
-    // if (IM_STATUS_NOERROR != ret) 
-    // {
-    //   printf("%d, check error! %s", __LINE__, imStrError((IM_STATUS)ret));
-    //   break;
-    // }
 
-    // IM_STATUS CROP_STATUS = imcrop(src, dst, src_rect);
-    // if (CROP_STATUS != IM_STATUS_SUCCESS)
-    // {
-    //   printf("ERROR: imcrop failed: %s\n", imStrError(CROP_STATUS));
-    // }
+//       thread_statistic.end();
+//     fps_ctx.calculate_fps(&fps_ctx);
+//     }
+
+
 
     RK_MPI_SYS_SendMediaBuffer(RK_ID_VO, 0, src_mb);
-    // RK_MPI_MB_ReleaseBuffer(dst_mb);
     RK_MPI_MB_ReleaseBuffer(src_mb);
   
     src_mb = NULL;
-    // dst_mb= NULL;  
   }
     for (int i = 0; i < io_num.n_input; i++)
     {
@@ -592,6 +440,7 @@ void *rkmedia_rknn_thread(void *args)
     {
         rknn_destroy_mem(ctx, outputs_mem[i]);
     }   
+    RGA_deinit(&rga_ctx);
    if (model) 
    {
      delete model;

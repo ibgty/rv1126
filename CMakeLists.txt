@@ -3,6 +3,7 @@
 # http://www.openedv.com/forum.php
 
 cmake_minimum_required(VERSION 3.8)
+project("yolov5")
 message(STATUS "cmake version ${CMAKE_VERSION}")
 
 set(TOOLCHAIN_DIR /opt/atk-dlrv1126-toolchain)
@@ -33,8 +34,15 @@ include_directories(./include)
 include_directories(./include/3rdparty)
 include_directories(./include/3rdparty/drm/include/libdrm)
 include_directories(./include/3rdparty/rga/include)
+include_directories(./include/3rdparty/CImg)
+include_directories(./include/algorithm)
+include_directories(./include/application)
+include_directories(./include/core)
+include_directories(./include/hardware)
 
 add_definitions(-DRKAIQ)
 
-add_executable(atk_yolov5_object_recognize atk_yolov5_object_recognize.cpp drm_func.c postprocess.cc rga_func.c)
-target_link_libraries(atk_yolov5_object_recognize ${OPENCV_LIBS} ${RKNN_LIBS} pthread dl)
+# add_executable(test_demo ./src/*.cpp)
+file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
+add_executable(test_demo ${SOURCES})
+target_link_libraries(test_demo ${OPENCV_LIBS} ${RKNN_LIBS} pthread dl)

@@ -22,8 +22,9 @@ class  FPSContext:public debug {
     ctx->frame_count++;
     double elapsed = (ctx->current_time.tv_sec - ctx->start_time.tv_sec) +
                     (ctx->current_time.tv_usec - ctx->start_time.tv_usec) / 1e6;
-    log(0)<<"time:"<<elapsed<<std::endl;
-    if (elapsed >= 1.0) {
+    log()<<"time:"<<elapsed<<std::endl;
+    log()<<"frame_count "<<frame_count<<std::endl;
+    if (elapsed >= 0.5) {
         ctx->fps = ctx->frame_count / elapsed;
         // printf("FPS: %.2f\n", ctx->fps);
         log()<<"FPS"<< std::fixed << std::setprecision(2)<<ctx->fps<<std::endl;

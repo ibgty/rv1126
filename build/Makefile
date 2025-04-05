@@ -57,10 +57,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/alientek/IMX335/12_atk_yolov5_object_recognize_frame
+CMAKE_SOURCE_DIR = /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/alientek/IMX335/12_atk_yolov5_object_recognize_frame/build
+CMAKE_BINARY_DIR = /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -87,9 +87,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/alientek/IMX335/12_atk_yolov5_object_recognize_frame/build/CMakeFiles /home/alientek/IMX335/12_atk_yolov5_object_recognize_frame/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/CMakeFiles /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/alientek/IMX335/12_atk_yolov5_object_recognize_frame/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -113,117 +113,190 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named atk_yolov5_object_recognize
+# Target rules for targets named test_demo
 
 # Build rule for target.
-atk_yolov5_object_recognize: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 atk_yolov5_object_recognize
-.PHONY : atk_yolov5_object_recognize
+test_demo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_demo
+.PHONY : test_demo
 
 # fast build rule for target.
-atk_yolov5_object_recognize/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/build
-.PHONY : atk_yolov5_object_recognize/fast
+test_demo/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/build
+.PHONY : test_demo/fast
 
-atk_yolov5_object_recognize.o: atk_yolov5_object_recognize.cpp.o
-.PHONY : atk_yolov5_object_recognize.o
-
-# target to build an object file
-atk_yolov5_object_recognize.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/atk_yolov5_object_recognize.cpp.o
-.PHONY : atk_yolov5_object_recognize.cpp.o
-
-atk_yolov5_object_recognize.i: atk_yolov5_object_recognize.cpp.i
-.PHONY : atk_yolov5_object_recognize.i
-
-# target to preprocess a source file
-atk_yolov5_object_recognize.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/atk_yolov5_object_recognize.cpp.i
-.PHONY : atk_yolov5_object_recognize.cpp.i
-
-atk_yolov5_object_recognize.s: atk_yolov5_object_recognize.cpp.s
-.PHONY : atk_yolov5_object_recognize.s
-
-# target to generate assembly for a file
-atk_yolov5_object_recognize.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/atk_yolov5_object_recognize.cpp.s
-.PHONY : atk_yolov5_object_recognize.cpp.s
-
-drm_func.o: drm_func.c.o
-.PHONY : drm_func.o
+src/algorithm/ObjectDetector.o: src/algorithm/ObjectDetector.cpp.o
+.PHONY : src/algorithm/ObjectDetector.o
 
 # target to build an object file
-drm_func.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/drm_func.c.o
-.PHONY : drm_func.c.o
+src/algorithm/ObjectDetector.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.o
+.PHONY : src/algorithm/ObjectDetector.cpp.o
 
-drm_func.i: drm_func.c.i
-.PHONY : drm_func.i
+src/algorithm/ObjectDetector.i: src/algorithm/ObjectDetector.cpp.i
+.PHONY : src/algorithm/ObjectDetector.i
 
 # target to preprocess a source file
-drm_func.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/drm_func.c.i
-.PHONY : drm_func.c.i
+src/algorithm/ObjectDetector.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.i
+.PHONY : src/algorithm/ObjectDetector.cpp.i
 
-drm_func.s: drm_func.c.s
-.PHONY : drm_func.s
+src/algorithm/ObjectDetector.s: src/algorithm/ObjectDetector.cpp.s
+.PHONY : src/algorithm/ObjectDetector.s
 
 # target to generate assembly for a file
-drm_func.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/drm_func.c.s
-.PHONY : drm_func.c.s
+src/algorithm/ObjectDetector.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.s
+.PHONY : src/algorithm/ObjectDetector.cpp.s
 
-postprocess.o: postprocess.cc.o
-.PHONY : postprocess.o
+src/application/Application.o: src/application/Application.cpp.o
+.PHONY : src/application/Application.o
 
 # target to build an object file
-postprocess.cc.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/postprocess.cc.o
-.PHONY : postprocess.cc.o
+src/application/Application.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/application/Application.cpp.o
+.PHONY : src/application/Application.cpp.o
 
-postprocess.i: postprocess.cc.i
-.PHONY : postprocess.i
+src/application/Application.i: src/application/Application.cpp.i
+.PHONY : src/application/Application.i
 
 # target to preprocess a source file
-postprocess.cc.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/postprocess.cc.i
-.PHONY : postprocess.cc.i
+src/application/Application.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/application/Application.cpp.i
+.PHONY : src/application/Application.cpp.i
 
-postprocess.s: postprocess.cc.s
-.PHONY : postprocess.s
+src/application/Application.s: src/application/Application.cpp.s
+.PHONY : src/application/Application.s
 
 # target to generate assembly for a file
-postprocess.cc.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/postprocess.cc.s
-.PHONY : postprocess.cc.s
+src/application/Application.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/application/Application.cpp.s
+.PHONY : src/application/Application.cpp.s
 
-rga_func.o: rga_func.c.o
-.PHONY : rga_func.o
+src/core/MediaException.o: src/core/MediaException.cpp.o
+.PHONY : src/core/MediaException.o
 
 # target to build an object file
-rga_func.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/rga_func.c.o
-.PHONY : rga_func.c.o
+src/core/MediaException.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/MediaException.cpp.o
+.PHONY : src/core/MediaException.cpp.o
 
-rga_func.i: rga_func.c.i
-.PHONY : rga_func.i
+src/core/MediaException.i: src/core/MediaException.cpp.i
+.PHONY : src/core/MediaException.i
 
 # target to preprocess a source file
-rga_func.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/rga_func.c.i
-.PHONY : rga_func.c.i
+src/core/MediaException.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/MediaException.cpp.i
+.PHONY : src/core/MediaException.cpp.i
 
-rga_func.s: rga_func.c.s
-.PHONY : rga_func.s
+src/core/MediaException.s: src/core/MediaException.cpp.s
+.PHONY : src/core/MediaException.s
 
 # target to generate assembly for a file
-rga_func.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/atk_yolov5_object_recognize.dir/build.make CMakeFiles/atk_yolov5_object_recognize.dir/rga_func.c.s
-.PHONY : rga_func.c.s
+src/core/MediaException.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/MediaException.cpp.s
+.PHONY : src/core/MediaException.cpp.s
+
+src/core/main.o: src/core/main.cpp.o
+.PHONY : src/core/main.o
+
+# target to build an object file
+src/core/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/main.cpp.o
+.PHONY : src/core/main.cpp.o
+
+src/core/main.i: src/core/main.cpp.i
+.PHONY : src/core/main.i
+
+# target to preprocess a source file
+src/core/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/main.cpp.i
+.PHONY : src/core/main.cpp.i
+
+src/core/main.s: src/core/main.cpp.s
+.PHONY : src/core/main.s
+
+# target to generate assembly for a file
+src/core/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/main.cpp.s
+.PHONY : src/core/main.cpp.s
+
+src/hardware/RgaProcessor.o: src/hardware/RgaProcessor.cpp.o
+.PHONY : src/hardware/RgaProcessor.o
+
+# target to build an object file
+src/hardware/RgaProcessor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/RgaProcessor.cpp.o
+.PHONY : src/hardware/RgaProcessor.cpp.o
+
+src/hardware/RgaProcessor.i: src/hardware/RgaProcessor.cpp.i
+.PHONY : src/hardware/RgaProcessor.i
+
+# target to preprocess a source file
+src/hardware/RgaProcessor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/RgaProcessor.cpp.i
+.PHONY : src/hardware/RgaProcessor.cpp.i
+
+src/hardware/RgaProcessor.s: src/hardware/RgaProcessor.cpp.s
+.PHONY : src/hardware/RgaProcessor.s
+
+# target to generate assembly for a file
+src/hardware/RgaProcessor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/RgaProcessor.cpp.s
+.PHONY : src/hardware/RgaProcessor.cpp.s
+
+src/hardware/VideoInput.o: src/hardware/VideoInput.cpp.o
+.PHONY : src/hardware/VideoInput.o
+
+# target to build an object file
+src/hardware/VideoInput.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.o
+.PHONY : src/hardware/VideoInput.cpp.o
+
+src/hardware/VideoInput.i: src/hardware/VideoInput.cpp.i
+.PHONY : src/hardware/VideoInput.i
+
+# target to preprocess a source file
+src/hardware/VideoInput.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.i
+.PHONY : src/hardware/VideoInput.cpp.i
+
+src/hardware/VideoInput.s: src/hardware/VideoInput.cpp.s
+.PHONY : src/hardware/VideoInput.s
+
+# target to generate assembly for a file
+src/hardware/VideoInput.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.s
+.PHONY : src/hardware/VideoInput.cpp.s
+
+src/hardware/VideoOutput.o: src/hardware/VideoOutput.cpp.o
+.PHONY : src/hardware/VideoOutput.o
+
+# target to build an object file
+src/hardware/VideoOutput.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o
+.PHONY : src/hardware/VideoOutput.cpp.o
+
+src/hardware/VideoOutput.i: src/hardware/VideoOutput.cpp.i
+.PHONY : src/hardware/VideoOutput.i
+
+# target to preprocess a source file
+src/hardware/VideoOutput.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.i
+.PHONY : src/hardware/VideoOutput.cpp.i
+
+src/hardware/VideoOutput.s: src/hardware/VideoOutput.cpp.s
+.PHONY : src/hardware/VideoOutput.s
+
+# target to generate assembly for a file
+src/hardware/VideoOutput.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.s
+.PHONY : src/hardware/VideoOutput.cpp.s
 
 # Help Target
 help:
@@ -233,19 +306,28 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... atk_yolov5_object_recognize"
-	@echo "... atk_yolov5_object_recognize.o"
-	@echo "... atk_yolov5_object_recognize.i"
-	@echo "... atk_yolov5_object_recognize.s"
-	@echo "... drm_func.o"
-	@echo "... drm_func.i"
-	@echo "... drm_func.s"
-	@echo "... postprocess.o"
-	@echo "... postprocess.i"
-	@echo "... postprocess.s"
-	@echo "... rga_func.o"
-	@echo "... rga_func.i"
-	@echo "... rga_func.s"
+	@echo "... test_demo"
+	@echo "... src/algorithm/ObjectDetector.o"
+	@echo "... src/algorithm/ObjectDetector.i"
+	@echo "... src/algorithm/ObjectDetector.s"
+	@echo "... src/application/Application.o"
+	@echo "... src/application/Application.i"
+	@echo "... src/application/Application.s"
+	@echo "... src/core/MediaException.o"
+	@echo "... src/core/MediaException.i"
+	@echo "... src/core/MediaException.s"
+	@echo "... src/core/main.o"
+	@echo "... src/core/main.i"
+	@echo "... src/core/main.s"
+	@echo "... src/hardware/RgaProcessor.o"
+	@echo "... src/hardware/RgaProcessor.i"
+	@echo "... src/hardware/RgaProcessor.s"
+	@echo "... src/hardware/VideoInput.o"
+	@echo "... src/hardware/VideoInput.i"
+	@echo "... src/hardware/VideoInput.s"
+	@echo "... src/hardware/VideoOutput.o"
+	@echo "... src/hardware/VideoOutput.i"
+	@echo "... src/hardware/VideoOutput.s"
 .PHONY : help
 
 
@@ -257,6 +339,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

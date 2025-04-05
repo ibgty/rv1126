@@ -1,4 +1,4 @@
-# Install script for directory: /home/alientek/IMX335/12_atk_yolov5_object_recognize_frame
+# Install script for directory: /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/alientek/IMX335/12_atk_yolov5_object_recognize_frame/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
