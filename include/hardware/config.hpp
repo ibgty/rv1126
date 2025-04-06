@@ -16,7 +16,7 @@ typedef struct ViConfig {
 }ViConfig;
 typedef struct RgaConfig {
   RK_BOOL EnBufPool = RK_TRUE;
-  RK_U16 BufPoolCnt = 4;
+  RK_U16 BufPoolCnt = 6;
   RK_U16 Rotaion = 0;
   RK_U32 input_x = 0;
   RK_U32 input_y = 0;

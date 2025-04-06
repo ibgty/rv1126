@@ -280,7 +280,9 @@
 				3,
 				4,
 				5,
-				6
+				6,
+				7,
+				8
 			],
 			"sysroot" : 
 			{
@@ -407,7 +409,9 @@
 				3,
 				4,
 				5,
-				6
+				6,
+				7,
+				8
 			]
 		}
 	],
@@ -417,6 +421,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/algorithm/ObjectDetector.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/algorithm/postprocess.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -453,6 +463,12 @@
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "src/hardware/VideoOutput.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/hardware/interface.cpp",
 			"sourceGroupIndex" : 0
 		}
 	],

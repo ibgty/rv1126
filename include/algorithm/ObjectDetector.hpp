@@ -1,76 +1,72 @@
-// #ifndef OBJECT_DETECTOR_HPP
-// #define OBJECT_DETECTOR_HPP
+#ifndef OBJECT_DETECTOR_HPP
+#define OBJECT_DETECTOR_HPP
 
-// #include "rknn_api.h"
-// #include "core/MediaException.hpp"
-// #include <vector>
-// #include <string>
-// #include <memory>
+#include "rknn_api.h"
+#include " MediaException.hpp"
+#include "model_config.hpp"
+#include <vector>
+#include <string>
+#include <memory>
+#include "interface.hpp"
+#include "postprocess.h"
+#include "rkmedia_api.h"
+#include "model_config.hpp"
 
-// namespace algorithm {
+class ObjectDetector {
+public:
+    /*
+     * @brief 初始化目标检测器
+     * @param config 模型配置参数
+     * @throw MediaException 初始化失败时抛出
+     */
 
-// struct ModelConfig {
-//     std::string modelPath;          // 模型路径
-//     int inputWidth;                 // 模型输入宽度
-//     int inputHeight;                // 模型输入高度
-//     float confThreshold = 0.3;      // 置信度阈值
-//     float nmsThreshold = 0.5;       // NMS阈值
-//     int numClasses = 80;            // 类别数量
-// };
 
-// struct BBox {
-//     int left;
-//     int top;
-//     int right;
-//     int bottom;
-//     float score;
-//     int classId;
-// };
+    // 禁用拷贝和赋值
 
-// class ObjectDetector {
-// public:
-//     /*
-//      * @brief 初始化目标检测器
-//      * @param config 模型配置参数
-//      * @throw MediaException 初始化失败时抛出
-//      */
-//     explicit ObjectDetector(const ModelConfig& config);
+    static ObjectDetector* getInstance() {
+        static ObjectDetector instance;  // C++11保证局部静态变量初始化线程安全
+        return &instance;
+    }
+
+     /*
+     * @brief 执行目标检测
+     * @param frame 输入视频帧
+     * @return 检测结果
+     * @throw MediaException 检测失败时抛出
+     */
+    void detect();
+    void preprocess(int index);
+    void postprocess(int index);
+private:
+    explicit ObjectDetector();
+   ~ObjectDetector();
+    ObjectDetector(const ObjectDetector&) = delete;
+    ObjectDetector operator=(const ObjectDetector&) = delete;
+    void loadModel();
+
     
-//     ~ObjectDetector();
-
-//     // 禁用拷贝和赋值
-//     ObjectDetector(const ObjectDetector&) = delete;
-//     ObjectDetector& operator=(const ObjectDetector&) = delete;
-
-//     struct DetectionResult {
-//         std::vector<BBox> boxes;
-//         std::vector<std::string> labels;
-//     };
-
-//      /*
-//      * @brief 执行目标检测
-//      * @param frame 输入视频帧
-//      * @return 检测结果
-//      * @throw MediaException 检测失败时抛出
-//      */
-//     DetectionResult detect(const MediaBuffer& frame);
-
-// private:
-//     void loadModel();
-//     void initializeIOMemory();
-//     void preprocess(const MediaBuffer& frame);
-//     void postprocess(DetectionResult& result);
+    void cleanup();
+  
+    // void get_model_width_height(int *width,int *height);
+    void get_frame(int index);
+    void initializeIOMemory();
+    void print_tensor(rknn_tensor_attr*attr);
+    void get_model_width_height();
     
-//     rknn_context m_ctx;
-//     ModelConfig m_config;
-//     rknn_input_output_num m_ioNum;
-//     std::vector<rknn_tensor_attr> m_inputAttrs;
-//     std::vector<rknn_tensor_attr> m_outputAttrs;
-//     std::vector<rknn_tensor_mem*> m_inputMems;
-//     std::vector<rknn_tensor_mem*> m_outputMems;
-//     bool m_initialized = false;
-// };
 
-// } // namespace algorithm
+    rknn_context m_ctx;
+    ModelConfig m_config;
+    rknn_input_output_num m_ioNum;
+    std::vector<rknn_tensor_attr> m_inputAttrs;
+    std::vector<rknn_tensor_attr> m_outputAttrs;
+    std::vector<rknn_tensor_mem*> m_inputMems;
+    std::vector<rknn_tensor_mem*> m_outputMems;
+     MEDIA_BUFFER src_mb[3];
+    bool m_initialized = false;
+    interface* m_interface;
+    detect_result_group_t result;
 
-// #endif // OBJECT_DETECTOR_HPP
+};
+
+
+#endif // OBJECT_DETECTOR_HPP

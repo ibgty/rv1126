@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.o"
   "CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.o.d"
+  "CMakeFiles/test_demo.dir/src/algorithm/postprocess.cpp.o"
+  "CMakeFiles/test_demo.dir/src/algorithm/postprocess.cpp.o.d"
   "CMakeFiles/test_demo.dir/src/application/Application.cpp.o"
   "CMakeFiles/test_demo.dir/src/application/Application.cpp.o.d"
   "CMakeFiles/test_demo.dir/src/core/MediaException.cpp.o"
@@ -13,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.o.d"
   "CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o"
   "CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o.d"
+  "CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o"
+  "CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o.d"
   "test_demo"
   "test_demo.pdb"
 )

@@ -6,12 +6,14 @@ cmake_policy(SET CMP0009 NEW)
 file(GLOB_RECURSE NEW_GLOB LIST_DIRECTORIES false "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/*.cpp")
 set(OLD_GLOB
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/algorithm/ObjectDetector.cpp"
+  "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/algorithm/postprocess.cpp"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/application/Application.cpp"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/core/MediaException.cpp"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/core/main.cpp"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/RgaProcessor.cpp"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/VideoInput.cpp"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/VideoOutput.cpp"
+  "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/interface.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")

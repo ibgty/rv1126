@@ -1,6 +1,6 @@
 #include "RgaProcessor.hpp"
 #include <sstream>
-
+#include <iostream>
 RgaProcessor::RgaProcessor(RgaConfig* m_config):m_config(m_config)
 {
     try {
@@ -76,7 +76,60 @@ void RgaProcessor::setup_rga_attributes() {
     m_attr.u16BufPoolCnt = m_config->BufPoolCnt;
     m_attr.u16Rotaion = m_config->Rotaion;
 }
+int RgaProcessor::rga_resize_init()
+{
+    rga_ctx.rga_handle = dlopen("/usr/lib/librga.so", RTLD_LAZY);
+    if (!rga_ctx.rga_handle)
+    {
+        printf("dlopen /usr/lib/librga.so failed\n");
+        return -1;
+    }
+    rga_ctx.init_func = (FUNC_RGA_INIT)dlsym(rga_ctx.rga_handle, "c_RkRgaInit");
+    rga_ctx.deinit_func = (FUNC_RGA_DEINIT)dlsym(rga_ctx.rga_handle, "c_RkRgaDeInit");
+    rga_ctx.blit_func = (FUNC_RGA_BLIT)dlsym(rga_ctx.rga_handle, "c_RkRgaBlit");
+    rga_ctx.init_func();
+    return 0;
+}
+void RgaProcessor::rga_resize( int src_fd, void *src_virt, int src_w, int src_h, int  dst_fd, void *dst_virt, int dst_w, int dst_h)
+{
+     std::cout<<17<<std::endl; 
+      if (rga_ctx.rga_handle)
+    {
+        int ret = 0;
+        rga_info_t src, dst;
 
+        memset(&src, 0, sizeof(rga_info_t));
+        src.fd = src_fd;
+        src.mmuFlag = 1;
+        src.virAddr = (void *)src_virt;
+
+        memset(&dst, 0, sizeof(rga_info_t));
+        dst.fd = dst_fd;
+        dst.mmuFlag = 1;
+        dst.virAddr = dst_virt;
+        dst.nn.nn_flag = 0;
+
+        rga_set_rect(&src.rect, 0, 0, src_w, src_h, src_w, src_h, RK_FORMAT_RGB_888);
+        rga_set_rect(&dst.rect, 0, 0, dst_w, dst_h, dst_w, dst_h, RK_FORMAT_RGB_888);
+
+        ret = rga_ctx.blit_func(&src, &dst, NULL);
+        if (ret)
+        {
+            printf("c_RkRgaBlit error : %s\n", strerror(errno));
+        }
+
+        return;
+    }
+    return;
+}
+int RgaProcessor::rga_resize_deinit()
+{
+    if(rga_ctx.rga_handle)
+    {
+        dlclose(rga_ctx.rga_handle);
+        rga_ctx.rga_handle = NULL;
+    }
+}
 /*
 MediaBuffer RgaProcessor::process(const MediaBuffer& input) {
     if (!m_initialized) {

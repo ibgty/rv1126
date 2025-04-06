@@ -154,6 +154,30 @@ src/algorithm/ObjectDetector.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.s
 .PHONY : src/algorithm/ObjectDetector.cpp.s
 
+src/algorithm/postprocess.o: src/algorithm/postprocess.cpp.o
+.PHONY : src/algorithm/postprocess.o
+
+# target to build an object file
+src/algorithm/postprocess.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/postprocess.cpp.o
+.PHONY : src/algorithm/postprocess.cpp.o
+
+src/algorithm/postprocess.i: src/algorithm/postprocess.cpp.i
+.PHONY : src/algorithm/postprocess.i
+
+# target to preprocess a source file
+src/algorithm/postprocess.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/postprocess.cpp.i
+.PHONY : src/algorithm/postprocess.cpp.i
+
+src/algorithm/postprocess.s: src/algorithm/postprocess.cpp.s
+.PHONY : src/algorithm/postprocess.s
+
+# target to generate assembly for a file
+src/algorithm/postprocess.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/postprocess.cpp.s
+.PHONY : src/algorithm/postprocess.cpp.s
+
 src/application/Application.o: src/application/Application.cpp.o
 .PHONY : src/application/Application.o
 
@@ -298,6 +322,30 @@ src/hardware/VideoOutput.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.s
 .PHONY : src/hardware/VideoOutput.cpp.s
 
+src/hardware/interface.o: src/hardware/interface.cpp.o
+.PHONY : src/hardware/interface.o
+
+# target to build an object file
+src/hardware/interface.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o
+.PHONY : src/hardware/interface.cpp.o
+
+src/hardware/interface.i: src/hardware/interface.cpp.i
+.PHONY : src/hardware/interface.i
+
+# target to preprocess a source file
+src/hardware/interface.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/interface.cpp.i
+.PHONY : src/hardware/interface.cpp.i
+
+src/hardware/interface.s: src/hardware/interface.cpp.s
+.PHONY : src/hardware/interface.s
+
+# target to generate assembly for a file
+src/hardware/interface.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/interface.cpp.s
+.PHONY : src/hardware/interface.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -310,6 +358,9 @@ help:
 	@echo "... src/algorithm/ObjectDetector.o"
 	@echo "... src/algorithm/ObjectDetector.i"
 	@echo "... src/algorithm/ObjectDetector.s"
+	@echo "... src/algorithm/postprocess.o"
+	@echo "... src/algorithm/postprocess.i"
+	@echo "... src/algorithm/postprocess.s"
 	@echo "... src/application/Application.o"
 	@echo "... src/application/Application.i"
 	@echo "... src/application/Application.s"
@@ -328,6 +379,9 @@ help:
 	@echo "... src/hardware/VideoOutput.o"
 	@echo "... src/hardware/VideoOutput.i"
 	@echo "... src/hardware/VideoOutput.s"
+	@echo "... src/hardware/interface.o"
+	@echo "... src/hardware/interface.i"
+	@echo "... src/hardware/interface.s"
 .PHONY : help
 
 
