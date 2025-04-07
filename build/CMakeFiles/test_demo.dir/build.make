@@ -195,6 +195,34 @@ CMakeFiles/test_demo.dir/src/hardware/interface.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_demo.dir/src/hardware/interface.cpp.s"
 	/opt/atk-dlrv1126-toolchain/usr/bin/arm-linux-gnueabihf-g++ --sysroot=/opt/atk-dlrv1126-toolchain/arm-buildroot-linux-gnueabihf/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/interface.cpp -o CMakeFiles/test_demo.dir/src/hardware/interface.cpp.s
 
+CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o: CMakeFiles/test_demo.dir/flags.make
+CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o: ../src/utils/get_fps.cpp
+CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o: CMakeFiles/test_demo.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o"
+	/opt/atk-dlrv1126-toolchain/usr/bin/arm-linux-gnueabihf-g++ --sysroot=/opt/atk-dlrv1126-toolchain/arm-buildroot-linux-gnueabihf/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o -MF CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o.d -o CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o -c /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/get_fps.cpp
+
+CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.i"
+	/opt/atk-dlrv1126-toolchain/usr/bin/arm-linux-gnueabihf-g++ --sysroot=/opt/atk-dlrv1126-toolchain/arm-buildroot-linux-gnueabihf/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/get_fps.cpp > CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.i
+
+CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.s"
+	/opt/atk-dlrv1126-toolchain/usr/bin/arm-linux-gnueabihf-g++ --sysroot=/opt/atk-dlrv1126-toolchain/arm-buildroot-linux-gnueabihf/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/get_fps.cpp -o CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.s
+
+CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o: CMakeFiles/test_demo.dir/flags.make
+CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o: ../src/utils/​​performance_monitor.cpp
+CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o: CMakeFiles/test_demo.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o"
+	/opt/atk-dlrv1126-toolchain/usr/bin/arm-linux-gnueabihf-g++ --sysroot=/opt/atk-dlrv1126-toolchain/arm-buildroot-linux-gnueabihf/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o -MF CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o.d -o CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o -c /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/​​performance_monitor.cpp
+
+CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.i"
+	/opt/atk-dlrv1126-toolchain/usr/bin/arm-linux-gnueabihf-g++ --sysroot=/opt/atk-dlrv1126-toolchain/arm-buildroot-linux-gnueabihf/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/​​performance_monitor.cpp > CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.i
+
+CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.s"
+	/opt/atk-dlrv1126-toolchain/usr/bin/arm-linux-gnueabihf-g++ --sysroot=/opt/atk-dlrv1126-toolchain/arm-buildroot-linux-gnueabihf/sysroot $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/​​performance_monitor.cpp -o CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.s
+
 # Object files for target test_demo
 test_demo_OBJECTS = \
 "CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.o" \
@@ -205,7 +233,9 @@ test_demo_OBJECTS = \
 "CMakeFiles/test_demo.dir/src/hardware/RgaProcessor.cpp.o" \
 "CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.o" \
 "CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o" \
-"CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o"
+"CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o" \
+"CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o" \
+"CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o"
 
 # External object files for target test_demo
 test_demo_EXTERNAL_OBJECTS =
@@ -219,9 +249,11 @@ test_demo: CMakeFiles/test_demo.dir/src/hardware/RgaProcessor.cpp.o
 test_demo: CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.o
 test_demo: CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o
 test_demo: CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o
+test_demo: CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o
+test_demo: CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o
 test_demo: CMakeFiles/test_demo.dir/build.make
 test_demo: CMakeFiles/test_demo.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable test_demo"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable test_demo"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/test_demo.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

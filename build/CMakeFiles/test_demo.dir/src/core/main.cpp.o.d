@@ -386,4 +386,12 @@ CMakeFiles/test_demo.dir/src/core/main.cpp.o: \
  /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/./include/hardware/VideoOutput.hpp \
  /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/./include/algorithm/postprocess.h \
  /opt/atk-dlrv1126-toolchain/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/8.3.0/atomic \
- /opt/atk-dlrv1126-toolchain/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/8.3.0/thread
+ /opt/atk-dlrv1126-toolchain/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/8.3.0/thread \
+ /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/./include/utils/get_fps.hpp \
+ /opt/atk-dlrv1126-toolchain/arm-buildroot-linux-gnueabihf/sysroot/usr/include/sys/time.h \
+ /opt/atk-dlrv1126-toolchain/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/8.3.0/deque \
+ /opt/atk-dlrv1126-toolchain/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/8.3.0/bits/stl_deque.h \
+ /opt/atk-dlrv1126-toolchain/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/8.3.0/bits/deque.tcc \
+ /home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/./include/utils/performance_monitor.hpp \
+ /opt/atk-dlrv1126-toolchain/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/8.3.0/mutex \
+ /opt/atk-dlrv1126-toolchain/prebuilts/gcc/linux-x86/arm/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/arm-linux-gnueabihf/include/c++/8.3.0/bits/std_mutex.h

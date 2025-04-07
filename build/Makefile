@@ -346,6 +346,54 @@ src/hardware/interface.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/interface.cpp.s
 .PHONY : src/hardware/interface.cpp.s
 
+src/utils/get_fps.o: src/utils/get_fps.cpp.o
+.PHONY : src/utils/get_fps.o
+
+# target to build an object file
+src/utils/get_fps.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o
+.PHONY : src/utils/get_fps.cpp.o
+
+src/utils/get_fps.i: src/utils/get_fps.cpp.i
+.PHONY : src/utils/get_fps.i
+
+# target to preprocess a source file
+src/utils/get_fps.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.i
+.PHONY : src/utils/get_fps.cpp.i
+
+src/utils/get_fps.s: src/utils/get_fps.cpp.s
+.PHONY : src/utils/get_fps.s
+
+# target to generate assembly for a file
+src/utils/get_fps.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.s
+.PHONY : src/utils/get_fps.cpp.s
+
+src/utils/​​performance_monitor.o: src/utils/​​performance_monitor.cpp.o
+.PHONY : src/utils/​​performance_monitor.o
+
+# target to build an object file
+src/utils/​​performance_monitor.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o
+.PHONY : src/utils/​​performance_monitor.cpp.o
+
+src/utils/​​performance_monitor.i: src/utils/​​performance_monitor.cpp.i
+.PHONY : src/utils/​​performance_monitor.i
+
+# target to preprocess a source file
+src/utils/​​performance_monitor.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.i
+.PHONY : src/utils/​​performance_monitor.cpp.i
+
+src/utils/​​performance_monitor.s: src/utils/​​performance_monitor.cpp.s
+.PHONY : src/utils/​​performance_monitor.s
+
+# target to generate assembly for a file
+src/utils/​​performance_monitor.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.s
+.PHONY : src/utils/​​performance_monitor.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -382,6 +430,12 @@ help:
 	@echo "... src/hardware/interface.o"
 	@echo "... src/hardware/interface.i"
 	@echo "... src/hardware/interface.s"
+	@echo "... src/utils/get_fps.o"
+	@echo "... src/utils/get_fps.i"
+	@echo "... src/utils/get_fps.s"
+	@echo "... src/utils/​​performance_monitor.o"
+	@echo "... src/utils/​​performance_monitor.i"
+	@echo "... src/utils/​​performance_monitor.s"
 .PHONY : help
 
 

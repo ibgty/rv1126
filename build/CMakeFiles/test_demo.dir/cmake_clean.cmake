@@ -17,6 +17,10 @@ file(REMOVE_RECURSE
   "CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o.d"
   "CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o"
   "CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o.d"
+  "CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o"
+  "CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o.d"
+  "CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o"
+  "CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o.d"
   "test_demo"
   "test_demo.pdb"
 )

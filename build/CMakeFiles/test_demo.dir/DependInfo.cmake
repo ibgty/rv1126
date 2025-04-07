@@ -17,6 +17,8 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/VideoInput.cpp" "CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.o" "gcc" "CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.o.d"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/VideoOutput.cpp" "CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o" "gcc" "CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o.d"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/interface.cpp" "CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o" "gcc" "CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o.d"
+  "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/get_fps.cpp" "CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o" "gcc" "CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o.d"
+  "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/​​performance_monitor.cpp" "CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o" "gcc" "CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o.d"
   )
 
 # Targets to which this target links.

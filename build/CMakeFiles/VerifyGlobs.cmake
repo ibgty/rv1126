@@ -14,6 +14,8 @@ set(OLD_GLOB
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/VideoInput.cpp"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/VideoOutput.cpp"
   "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/hardware/interface.cpp"
+  "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/get_fps.cpp"
+  "/home/alientek/IMX335/12_atk_yolov5_object_recognize_c++/src/utils/​​performance_monitor.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
