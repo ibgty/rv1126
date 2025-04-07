@@ -61,7 +61,7 @@ private:
     std::vector<rknn_tensor_attr> m_outputAttrs;
     std::vector<rknn_tensor_mem*> m_inputMems;
     std::vector<rknn_tensor_mem*> m_outputMems;
-     MEDIA_BUFFER src_mb[3];
+     MEDIA_BUFFER src_mb;
     bool m_initialized = false;
     interface* m_interface;
     detect_result_group_t result;

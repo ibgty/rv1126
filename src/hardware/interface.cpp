@@ -27,7 +27,7 @@ interface::interface()
     stSrcChn.s32DevId =m_camera_config-> m_camId;
     stSrcChn.s32ChnId = m_camera_config->chn;
     stDestChn.enModId = RK_ID_RGA;
-    stDestChn.s32DevId =  m_camera_config-> m_camId;
+    stSrcChn.s32DevId =  m_camera_config-> m_camId;
     stDestChn.s32ChnId = m_Rga_config->chn;
     RK_MPI_SYS_Bind(&stSrcChn, &stDestChn);
     show_info();
@@ -37,7 +37,7 @@ interface::interface()
 
 void interface::resize (int src_fd, void *src_virt, int src_w, int src_h, int  dst_fd, void *dst_virt, int dst_w, int dst_h)
 {
-   std::cout<<18<<std::endl; 
+  //  std::cout<<18<<std::endl; 
    std::cout<<dst_w<<"x"<<dst_h<<std::endl;
   m_Rga->rga_resize(src_fd,src_virt,src_w,src_h,dst_fd,dst_virt,dst_w, dst_h);
 }

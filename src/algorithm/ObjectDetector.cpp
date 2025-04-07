@@ -37,19 +37,20 @@ ObjectDetector::ObjectDetector()
 {
     try {
 
-  std::cout<<8<<std::endl;
+  // std::cout<<8<<std::endl;
         loadModel();
-  std::cout<<9<<std::endl;
+  // std::cout<<9<<std::endl;
         get_model_width_height();
           std::cout<<"m_config.inputWidth,m_config.inputHeight"<<m_config.inputWidth<<","<<m_config.inputHeight<<std::endl;
-  std::cout<<10<<std::endl;
+  // std::cout<<10<<std::endl;
         initializeIOMemory();
-  std::cout<<11<<std::endl;
+  // std::cout<<11<<std::endl;
         m_initialized = true;
-        for (int i=0;i<3;i++)
-        {
-          src_mb[i]=nullptr;
-        }
+        // for (int i=0;i<3;i++)
+        // {
+        //   src_mb[i]=nullptr;
+        // }
+        src_mb=nullptr;
     } catch (...) {
         if (m_initialized) cleanup();
         throw;
@@ -68,7 +69,7 @@ void ObjectDetector::loadModel() {
     // 加载模型文件
     auto modelData = loadModelFile(m_config.modelPath);
     
-  std::cout<<12<<std::endl;
+  // std::cout<<12<<std::endl;
     // 初始化RKNN上下文
     int ret = rknn_init(&m_ctx, 
                             modelData.data(), 
@@ -165,20 +166,31 @@ void ObjectDetector::preprocess(int index) {
     // 假设frame已经是RGB888格式且尺寸匹配
     // 实际应添加格式转换和缩放逻辑
     get_frame(index);
-       std::cout<<15<<std::endl; 
-    unsigned char *input_data = (unsigned char *)RK_MPI_MB_GetPtr(src_mb[index]); 
-     std::cout<<19<<std::endl; 
+      //  std::cout<<15<<std::endl; 
+    unsigned char *input_data = (unsigned char *)RK_MPI_MB_GetPtr(src_mb); 
+    if(!input_data)
+    {
+      std::cout<<"input_data get fail"<<std::endl;
+      std::cout<<"input_data get fail"<<std::endl;
+    }
+    // std::cout<<"input_data"<<input_data<<std::endl;
+    //  std::cout<<19<<std::endl; 
      std::cout<<"m_config.inputWidth,m_config.inputHeight"<<m_config.inputWidth<<","<<m_config.inputHeight<<std::endl;
     m_interface->resize(-1, input_data, m_interface->get_rga_width(), m_interface->get_rga_height(), m_inputMems[0]->fd, nullptr, m_config.inputWidth,m_config.inputHeight);
      rknn_set_io_mem(m_ctx, m_inputMems[0], &m_inputAttrs[0]);
      for (int i = 0; i < m_ioNum.n_output; ++i) {
         rknn_set_io_mem(m_ctx, m_outputMems[i], &m_outputAttrs[i]);
      }
-       std::cout<<16<<std::endl; 
+      //  std::cout<<16<<std::endl; 
 }
 void ObjectDetector::get_frame(int index)
 {
-  src_mb[index] = RK_MPI_SYS_GetMediaBuffer(RK_ID_RGA, 0, -1);
+  src_mb = RK_MPI_SYS_GetMediaBuffer(RK_ID_RGA, 0, -1);
+  if(!src_mb)
+  {
+  std::cout<<"rk_mpi_sys_getmediabuffer fail"<<std::endl;
+  }
+
 }
 
 void ObjectDetector::initializeIOMemory() {
@@ -194,7 +206,7 @@ void ObjectDetector::initializeIOMemory() {
             
 
     }
-   std::cout<<13<<std::endl; 
+  //  std::cout<<13<<std::endl; 
 
     // 初始化输出内存
     for (int i = 0; i < m_ioNum.n_output; ++i) {
@@ -209,7 +221,7 @@ void ObjectDetector::initializeIOMemory() {
      
 
     }
-       std::cout<<14<<std::endl; 
+      //  std::cout<<14<<std::endl; 
 }
 void ObjectDetector::print_tensor(rknn_tensor_attr*attr)
 {
@@ -321,9 +333,11 @@ void ObjectDetector::postprocess(int index) {
       Mat orig_img = Mat(m_interface->get_rga_height(),  m_interface->get_rga_width(), CV_8UC3, RK_MPI_MB_GetPtr(src_mb));//黑白灰图案
       cv::rectangle(orig_img,cv::Point(left, top),cv::Point(right, bottom),cv::Scalar(0,255,255),5,8,0);
       putText(orig_img, result.results[i].name, Point(left, top-16), FONT_HERSHEY_TRIPLEX, 3, Scalar(0,0,255),4,8,0);
-       RK_MPI_SYS_SendMediaBuffer(RK_ID_VO, 0, src_mb[index]);
-       RK_MPI_MB_ReleaseBuffer(src_mb[index]);
     }
+        RK_MPI_SYS_SendMediaBuffer(RK_ID_VO, 0, src_mb);
+    RK_MPI_MB_ReleaseBuffer(src_mb);
+
+    src_mb = nullptr;
 }
 
 void ObjectDetector::cleanup() {

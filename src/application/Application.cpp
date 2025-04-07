@@ -9,7 +9,7 @@ Application::Application()
 {
     try {
         initializePipeline();
-        std::cout<<4<<std::endl;
+        // std::cout<<4<<std::endl;
     } catch (...) {
         // stop();
         throw;
@@ -26,13 +26,13 @@ void Application::run() {
     m_running = true;
     while(1)
     {
-      std::cout<<0<<std::endl;
+      // std::cout<<0<<std::endl;
       detect->preprocess(0);
-      std::cout<<1<<std::endl;
+      // std::cout<<1<<std::endl;
       detect->detect();
-      std::cout<<2<<std::endl;
+      // std::cout<<2<<std::endl;
       detect->postprocess(0);
-      std::cout<<3<<std::endl;
+      // std::cout<<3<<std::endl;
     }
     // startThreads();
 }

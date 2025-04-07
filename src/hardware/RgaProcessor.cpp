@@ -78,21 +78,24 @@ void RgaProcessor::setup_rga_attributes() {
 }
 int RgaProcessor::rga_resize_init()
 {
+
     rga_ctx.rga_handle = dlopen("/usr/lib/librga.so", RTLD_LAZY);
     if (!rga_ctx.rga_handle)
     {
-        printf("dlopen /usr/lib/librga.so failed\n");
+        // printf("dlopen /usr/lib/librga.so failed\n");
+        std::cout<<"dlopen /usr/lib/librga.so failed"<<std::endl;
         return -1;
     }
     rga_ctx.init_func = (FUNC_RGA_INIT)dlsym(rga_ctx.rga_handle, "c_RkRgaInit");
     rga_ctx.deinit_func = (FUNC_RGA_DEINIT)dlsym(rga_ctx.rga_handle, "c_RkRgaDeInit");
     rga_ctx.blit_func = (FUNC_RGA_BLIT)dlsym(rga_ctx.rga_handle, "c_RkRgaBlit");
     rga_ctx.init_func();
+        std::cout<<"rga_resize_init success"<<std::endl;
     return 0;
 }
 void RgaProcessor::rga_resize( int src_fd, void *src_virt, int src_w, int src_h, int  dst_fd, void *dst_virt, int dst_w, int dst_h)
 {
-     std::cout<<17<<std::endl; 
+    //  std::cout<<17<<std::endl; 
       if (rga_ctx.rga_handle)
     {
         int ret = 0;
@@ -115,7 +118,8 @@ void RgaProcessor::rga_resize( int src_fd, void *src_virt, int src_w, int src_h,
         ret = rga_ctx.blit_func(&src, &dst, NULL);
         if (ret)
         {
-            printf("c_RkRgaBlit error : %s\n", strerror(errno));
+            // printf("c_RkRgaBlit error : %s\n", strerror(errno));
+            std::cout<<"c_RkRgaBlit error :"<<strerror(errno)<<std::endl;
         }
 
         return;

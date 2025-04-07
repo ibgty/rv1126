@@ -5,7 +5,7 @@
 typedef struct ViConfig {
   RK_CHAR *pDeviceName_01 = "rkispp_scale0";
   RK_CHAR *pDeviceName_02 = "rkispp_scale1";
-  RK_U32 u32BufCnt=3;
+  RK_U32 u32BufCnt=5;
   RK_U32 video_width=2592;
   RK_U32 video_height=1944;
   IMAGE_TYPE_E image_type=IMAGE_TYPE_NV12;
@@ -16,7 +16,7 @@ typedef struct ViConfig {
 }ViConfig;
 typedef struct RgaConfig {
   RK_BOOL EnBufPool = RK_TRUE;
-  RK_U16 BufPoolCnt = 6;
+  RK_U16 BufPoolCnt = 4;
   RK_U16 Rotaion = 0;
   RK_U32 input_x = 0;
   RK_U32 input_y = 0;
@@ -45,8 +45,8 @@ typedef struct DisplayConfig {
   RK_S32 imgRect_height=1920; 
   RK_S32 dispRect_x=0;
   RK_S32 dispRect_y=0;
-  RK_S32 dispRect_width=1280;
-  RK_S32 dispRect_height=720; 
+  RK_S32 dispRect_width=720;
+  RK_S32 dispRect_height=1280; 
   VO_CHN chn=0;
 }DisplayConfig;
 typedef struct IspConfig{
