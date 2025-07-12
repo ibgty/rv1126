@@ -12,6 +12,11 @@
 #include "rkmedia_api.h"
 #include "model_config.hpp"
 
+#include <thread>
+#include <mutex>
+#include <condition_variable>
+#include <queue>
+
 class ObjectDetector {
 public:
     /*
@@ -65,6 +70,19 @@ private:
     bool m_initialized = false;
     interface* m_interface;
     detect_result_group_t result;
+
+
+    std::mutex M_Processing_Mutex;
+    std::mutex M_Detect_Mutex;
+    std::mutex M_PostPocess_Mutex;
+    std::condition_variable Pre_Process_Cond, Detect_Cond,Post_Process_Cond;
+
+
+    std::queue<MEDIA_BUFFER> input_buffer;
+    std::queue<detect_result_group_t> inference_result;
+    int detect_flag;
+    int  output_flag;
+    int num_buffer;
 
 };
 

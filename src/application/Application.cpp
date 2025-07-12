@@ -8,6 +8,7 @@
 Application::Application() 
 {
     try {
+        
         initializePipeline();
         // std::cout<<4<<std::endl;
     } catch (...) {
@@ -21,18 +22,67 @@ Application::~Application() {
     // stop();
     // delete[]hardware;
 }
+void Application::thread_inference()
+{
 
+  while(1)
+  {
+  // std::cout<<1<<std::endl;
+  perform_pre_process.begin(Stage::IM_PREPROCESS);
+  detect->preprocess(0);
+  perform_pre_process.end();
+  // std::cout<<2222222222222
+  perform_detect.begin(Stage::INFERENCE);
+  detect->detect();
+  perform_detect.end();
+  }
+}
+void Application::thread_postprocess()
+{
+
+  while(1)
+  {
+    perform_post_process.begin(Stage::POSTPROCESS_RENDER);
+  detect->postprocess(0);
+  perform_post_process.end();
+  // std::cout<<3<<std::endl;
+  fps.calculate_fps();
+  // std::cout<<4<<std::endl; 
+  }
+}
 void Application::run() {
     m_running = true;
+    // for(int i=0;i<3;i++)
+    // {
+      
+    // }
+    std::thread threads[2];
+    threads[0]=std::thread(&Application::thread_inference,this);
+    threads[1]=std::thread(&Application::thread_postprocess,this);
     while(1)
     {
+    // std::cout<<"debug"<<1<<std::endl;
+      // perform_pre_process.begin(Stage::IM_PREPROCESS);
+      // detect->preprocess(0);
+      // perform_pre_process.end();
+      // // std::cout<<"debug"<<2<<std::endl;
+      // perform_detect.begin(Stage::INFERENCE);
+      // detect->detect();
+      // perform_detect.end();
+      // // std::cout<<"debug"<<3<<std::endl;
+      // perform_post_process.begin(Stage::POSTPROCESS_RENDER);
+      // detect->postprocess(0);
+      // perform_post_process.end();
+      // // std::cout<<3<<std::endl;
+      // fps.calculate_fps();
+      // print("hello\n");
+      
       // std::cout<<0<<std::endl;
-      detect->preprocess(0);
-      // std::cout<<1<<std::endl;
-      detect->detect();
+      
+      // thread_inference();
+      // thread_postprocess();
       // std::cout<<2<<std::endl;
-      detect->postprocess(0);
-      // std::cout<<3<<std::endl;
+
     }
     // startThreads();
 }
@@ -45,11 +95,11 @@ void Application::run() {
 // }
 
 void Application::initializePipeline() {
-  std::cout<<5<<std::endl;
+  // std::cout<<5<<std::endl;
    hardware=interface::getInstance();
   std::cout<<6<<std::endl;
    detect=ObjectDetector::getInstance();
-  std::cout<<7<<std::endl;
+  // std::cout<<7<<std::endl;
 }
 
 

@@ -8,12 +8,16 @@
 // #include "rga_func.h"
 #include "Application.hpp"
 #include "ObjectDetector.hpp"
+#include <thread>
+
 
 #include <atomic>
-#include <thread>
+
 #include <memory>
 #include<iostream>
-
+#include "get_fps.hpp"
+#include "performance_monitor.hpp"
+#include <thread>
 class Application {
 public:
     explicit Application();
@@ -27,12 +31,22 @@ private:
     // void startThreads();
     // void stopThreads();
 
-
+    void thread_inference();
+    void thread_postprocess();
     // void processingLoop();
     // void renderingLoop();
     interface* hardware;
     ObjectDetector* detect;
     std::atomic_bool m_running{false};
+    FPSContext fps;
+    PerformanceMonitor perform_pre_process;
+    PerformanceMonitor perform_detect;
+    PerformanceMonitor perform_post_process;
+
+    std::thread M_Processing_Thread;
+    std::thread M_Detect_Thread;
+    std::thread M_Postprocess_Thread;
+
     // AppConfig m_config;
 
     // std::unique_ptr<VideoInput> m_camera;

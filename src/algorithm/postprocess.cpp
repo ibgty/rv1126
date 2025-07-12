@@ -20,6 +20,7 @@
 //#include <vector>
 #include "postprocess.h"
 #include <stdint.h>
+#include <iostream>
 //#define LABEL_NALE_TXT_PATH "/demo/bin/coco_80_labels_list.txt"
 #define LABEL_NALE_TXT_PATH "/demo/bin/coco_80_labels_list.txt"
 
@@ -213,13 +214,16 @@ static int process(uint8_t *input, int *anchor, int grid_h, int grid_w, int heig
     int grid_len = grid_h * grid_w;
     float thres = unsigmoid(threshold);
     uint8_t thres_u8 = qnt_f32_to_affine(thres, zp, scale);
+
     for (int a = 0; a < 3; a++)
     {
+
         for (int i = 0; i < grid_h; i++)
         {
             for (int j = 0; j < grid_w; j++)
             {
                 uint8_t box_confidence = input[(PROP_BOX_SIZE * a + 4) * grid_len + i * grid_w + j];
+                
                 if (box_confidence >= thres_u8)
                 {
                     int offset = (PROP_BOX_SIZE * a) * grid_len + i * grid_w + j;
@@ -257,7 +261,9 @@ static int process(uint8_t *input, int *anchor, int grid_h, int grid_w, int heig
                 }
             }
         }
+
     }
+
     return validCount;
 }
 
@@ -287,6 +293,7 @@ int post_process(uint8_t *input0, uint8_t *input1, uint8_t *input2, int model_in
     int grid_h0 = model_in_h / stride0;
     int grid_w0 = model_in_w / stride0;
     int validCount0 = 0;
+    
     validCount0 = process(input0, (int *)anchor0, grid_h0, grid_w0, model_in_h, model_in_w,
                           stride0, filterBoxes, boxesScore, classId, conf_threshold, qnt_zps[0], qnt_scales[0]);
 
@@ -301,9 +308,10 @@ int post_process(uint8_t *input0, uint8_t *input1, uint8_t *input2, int model_in
     int grid_h2 = model_in_h / stride2;
     int grid_w2 = model_in_w / stride2;
     int validCount2 = 0;
+    
     validCount2 = process(input2, (int *)anchor2, grid_h2, grid_w2, model_in_h, model_in_w,
                           stride2, filterBoxes, boxesScore, classId, conf_threshold, qnt_zps[2], qnt_scales[2]);
-
+                         
     int validCount = validCount0 + validCount1 + validCount2;
     // no object detect
     if (validCount <= 0)
@@ -352,6 +360,6 @@ int post_process(uint8_t *input0, uint8_t *input1, uint8_t *input2, int model_in
         last_count++;
     }
     group->count = last_count;
-
+   
     return 0;
 }

@@ -3,12 +3,14 @@
 #include <iostream>
 #include<sstream>
 
+using namespace std::chrono;
+
 // 构造函数
 MediaException::MediaException(ErrorType type, const std::string& context)
     : std::runtime_error(generateMessage(type, context)),
       m_type(type),
       m_context(context),
-      m_timestamp(std::chrono::system_clock::now()) {
+      m_timestamp(system_clock::now()) {
     logError();
 }
 
@@ -23,34 +25,38 @@ const char* MediaException::context() const noexcept {
 
 // 错误类型转字符串
 const char* MediaException::errorTypeToString(ErrorType type) {
-    static const char* typeStrings[] = {
-        "VI_INIT_FAILURE", "RGA_INIT_FAILURE", "VO_INIT_FAILURE",
-        "RKNN_INIT_FAILURE", "MODEL_LOAD_FAILURE", "FRAME_ACQUIRE_FAILURE",
-        "BUFFER_ALLOC_FAILURE", "RUNTIME_PROCESSING", "THREAD_OPERATION",
-        "DMA_OPERATION_FAILURE", "ISP_CONFIG_FAILURE", "INVALID_PARAMETER"
-    };
-    return typeStrings[static_cast<int>(type)];
+    switch(type) {
+        case VI_INIT_FAILURE:    return "视频输入初始化失败";
+        case RGA_INIT_FAILURE:   return "图像处理器初始化失败";
+        case VO_INIT_FAILURE:    return "显示输出初始化失败";
+        case RKNN_INIT_FAILURE:  return "神经网络初始化失败";
+        case MODEL_LOAD_FAILURE: return "模型加载失败";
+        case FRAME_ACQUIRE_FAILURE: return "帧获取失败";
+        case BUFFER_ALLOC_FAILURE:  return "内存分配失败";
+        case RUNTIME_PROCESSING:    return "通用处理错误";
+        case THREAD_OPERATION:      return "线程操作错误";
+        case DMA_OPERATION_FAILURE: return "DMA操作失败";
+        case ISP_CONFIG_FAILURE:    return "ISP配置错误";
+        case INVALID_PARAMETER:     return "无效参数";
+        default:                    return "未知错误类型";
+    }
 }
 
 // 生成错误信息
 std::string MediaException::generateMessage(ErrorType type, const std::string& context) {
     std::ostringstream oss;
-    oss << "[MediaSystem] "
-        << "Type: " << errorTypeToString(type) << " | "
-        << "Time: " << getCurrentTime() << " | "
-        << "Context: " << context;
+    oss << "[" << getCurrentTime() << "] "
+        << errorTypeToString(type) 
+        << " - " << context;
     return oss.str();
 }
 
 // 获取当前时间
 std::string MediaException::getCurrentTime() {
-    auto now = std::chrono::system_clock::now();
-    auto in_time_t = std::chrono::system_clock::to_time_t(now);
-    std::tm tm_buf;
-    localtime_r(&in_time_t, &tm_buf);
-    
+    auto now = system_clock::to_time_t(m_timestamp);
+    std::tm tm = *std::localtime(&now);
     std::ostringstream oss;
-    oss << std::put_time(&tm_buf, "%Y-%m-%d %H:%M:%S");
+    oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
     return oss.str();
 }
 

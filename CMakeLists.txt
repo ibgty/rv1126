@@ -39,7 +39,7 @@ include_directories(./include/algorithm)
 include_directories(./include/application)
 include_directories(./include/core)
 include_directories(./include/hardware)
-
+include_directories(./include/utils)
 add_definitions(-DRKAIQ)
 
 # add_executable(test_demo ./src/*.cpp)

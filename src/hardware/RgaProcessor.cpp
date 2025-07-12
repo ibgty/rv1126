@@ -82,8 +82,12 @@ int RgaProcessor::rga_resize_init()
     rga_ctx.rga_handle = dlopen("/usr/lib/librga.so", RTLD_LAZY);
     if (!rga_ctx.rga_handle)
     {
+       throw MediaException(
+            MediaException::RUNTIME_PROCESSING,
+            "dlopen /usr/lib/librga.so fail\n " 
+        );
         // printf("dlopen /usr/lib/librga.so failed\n");
-        std::cout<<"dlopen /usr/lib/librga.so failed"<<std::endl;
+        // std::cout<<"dlopen /usr/lib/librga.so failed"<<std::endl;
         return -1;
     }
     rga_ctx.init_func = (FUNC_RGA_INIT)dlsym(rga_ctx.rga_handle, "c_RkRgaInit");
@@ -118,8 +122,14 @@ void RgaProcessor::rga_resize( int src_fd, void *src_virt, int src_w, int src_h,
         ret = rga_ctx.blit_func(&src, &dst, NULL);
         if (ret)
         {
+          std::ostringstream oss;
+            oss << "c_RkRgaBlit error : " <<strerror(errno);
             // printf("c_RkRgaBlit error : %s\n", strerror(errno));
-            std::cout<<"c_RkRgaBlit error :"<<strerror(errno)<<std::endl;
+            throw MediaException(
+            MediaException::RUNTIME_PROCESSING,
+            oss.str()
+        );
+            
         }
 
         return;
