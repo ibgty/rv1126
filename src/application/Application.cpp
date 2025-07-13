@@ -22,16 +22,21 @@ Application::~Application() {
     // stop();
     // delete[]hardware;
 }
-void Application::thread_inference()
+void Application::pre_process()
 {
-
   while(1)
   {
   // std::cout<<1<<std::endl;
   perform_pre_process.begin(Stage::IM_PREPROCESS);
   detect->preprocess(0);
   perform_pre_process.end();
-  // std::cout<<2222222222222
+  }
+}
+void Application::thread_inference()
+{
+
+  while(1)
+  {
   perform_detect.begin(Stage::INFERENCE);
   detect->detect();
   perform_detect.end();
@@ -56,9 +61,10 @@ void Application::run() {
     // {
       
     // }
-    std::thread threads[2];
-    threads[0]=std::thread(&Application::thread_inference,this);
-    threads[1]=std::thread(&Application::thread_postprocess,this);
+    std::thread threads[3];
+    threads[0]=std::thread(&Application::pre_process,this);
+    threads[1]=std::thread(&Application::thread_inference,this);
+    threads[2]=std::thread(&Application::thread_postprocess,this);
     while(1)
     {
     // std::cout<<"debug"<<1<<std::endl;

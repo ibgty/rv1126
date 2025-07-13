@@ -5,7 +5,7 @@
 typedef struct ViConfig {
   RK_CHAR *pDeviceName_01 = "rkispp_scale0";
   RK_CHAR *pDeviceName_02 = "rkispp_scale1";
-  RK_U32 u32BufCnt=5;
+  RK_U32 u32BufCnt=10;
   RK_U32 video_width=2592;
   RK_U32 video_height=1944;
   IMAGE_TYPE_E image_type=IMAGE_TYPE_NV12;

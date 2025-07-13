@@ -39,7 +39,7 @@ void interface::resize (int src_fd, void *src_virt, int src_w, int src_h, int  d
 {
   //  std::cout<<18<<std::endl; 
    std::cout<<dst_w<<"x"<<dst_h<<std::endl;
-  m_Rga->rga_resize(src_fd,src_virt,src_w,src_h,dst_fd,dst_virt,dst_w, dst_h);
+  m_Rga->letter_box_resize(src_fd,src_virt,src_w,src_h,dst_fd,dst_virt,dst_w, dst_h);
 }
 void interface::show_info(){
   std::cout<<"VI CameraIdx:"<<m_camera_config->m_camId<<std::endl;

@@ -99,42 +99,81 @@ int RgaProcessor::rga_resize_init()
 }
 void RgaProcessor::rga_resize( int src_fd, void *src_virt, int src_w, int src_h, int  dst_fd, void *dst_virt, int dst_w, int dst_h)
 {
-    //  std::cout<<17<<std::endl; 
       if (rga_ctx.rga_handle)
     {
-        int ret = 0;
-        rga_info_t src, dst;
+        im_rect src_rect;
+        im_rect dst_rect;
+        memset(&src_rect, 0, sizeof(src_rect));
+        memset(&dst_rect, 0, sizeof(dst_rect));
 
-        memset(&src, 0, sizeof(rga_info_t));
-        src.fd = src_fd;
-        src.mmuFlag = 1;
-        src.virAddr = (void *)src_virt;
+        rga_buffer_t src;
+        rga_buffer_t dst;
+        memset(&src, 0, sizeof(rga_buffer_t));
+        memset(&dst, 0, sizeof(rga_buffer_t));
 
-        memset(&dst, 0, sizeof(rga_info_t));
-        dst.fd = dst_fd;
-        dst.mmuFlag = 1;
-        dst.virAddr = dst_virt;
-        dst.nn.nn_flag = 0;
+        src=wrapbuffer_virtualaddr((void*)src_virt, src_w, src_h,RK_FORMAT_RGB_888);
 
-        rga_set_rect(&src.rect, 0, 0, src_w, src_h, src_w, src_h, RK_FORMAT_RGB_888);
-        rga_set_rect(&dst.rect, 0, 0, dst_w, dst_h, dst_w, dst_h, RK_FORMAT_RGB_888);
-
-        ret = rga_ctx.blit_func(&src, &dst, NULL);
-        if (ret)
+        dst=wrapbuffer_virtualaddr(dst_virt,dst_w,dst_h,RK_FORMAT_RGB_888);
+        int ret = imcheck(src, dst, src_rect, dst_rect);
+        IM_STATUS ret1=imresize(src, dst);
+        if(ret != IM_STATUS_NOERROR  )
         {
-          std::ostringstream oss;
-            oss << "c_RkRgaBlit error : " <<strerror(errno);
-            // printf("c_RkRgaBlit error : %s\n", strerror(errno));
-            throw MediaException(
-            MediaException::RUNTIME_PROCESSING,
-            oss.str()
-        );
-            
+          std::cout<<"imcheck error"<<std::endl;
+          imStrError((IM_STATUS)ret);
         }
+        if(ret1 != IM_STATUS_SUCCESS )
+        {
+          std::cout<<"imresize error"<<std::endl;
 
-        return;
+        }
     }
     return;
+}
+void RgaProcessor::letter_box_resize( int src_fd, void *src_virt, int src_w, int src_h, int  dst_fd, void *dst_virt, int dst_w, int dst_h)
+{
+  int min=std::min(src_h,src_w);
+  if (rga_ctx.rga_handle)
+  {
+      im_rect src_rect;
+      im_rect dst_rect;
+      memset(&src_rect, 0, sizeof(src_rect));
+      memset(&dst_rect, 0, sizeof(dst_rect));
+
+      rga_buffer_t src;
+      rga_buffer_t src_crop;
+      rga_buffer_t dst;
+      memset(&src, 0, sizeof(rga_buffer_t));
+      memset(&src_crop, 0, sizeof(rga_buffer_t));
+      memset(&dst, 0, sizeof(rga_buffer_t));
+      void *crop_buf=malloc(min*min*3);
+      src=wrapbuffer_virtualaddr((void*)src_virt, src_w, src_h,RK_FORMAT_RGB_888);
+      src_crop=wrapbuffer_virtualaddr((void*)crop_buf,min,min,RK_FORMAT_RGB_888);
+      dst=wrapbuffer_virtualaddr(dst_virt,dst_w,dst_h,RK_FORMAT_RGB_888);
+      int ret = imcheck(src, dst, src_rect, dst_rect);
+      if(ret != IM_STATUS_NOERROR  )
+      {
+        std::cout<<"imcheck error"<<std::endl;
+        imStrError((IM_STATUS)ret);
+      }
+
+
+      src_rect.x=0;
+      src_rect.y=0;
+      src_rect.width=min;
+      src_rect.height=min; 
+      IM_STATUS status=imcrop(src, src_crop, src_rect);
+      if(status!= IM_STATUS_SUCCESS)
+      {
+        std::cout<<"imcrop error"<<std::endl;
+      }
+      IM_STATUS ret1=imresize(src_crop, dst);
+      if(ret1 != IM_STATUS_SUCCESS )
+      {
+        std::cout<<"imresize error"<<std::endl;
+      }
+      free(crop_buf);
+  }
+  return;
 }
 int RgaProcessor::rga_resize_deinit()
 {

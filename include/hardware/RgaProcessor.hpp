@@ -7,6 +7,8 @@
 #include "config.hpp"
 #include <dlfcn.h> 
 #include "RgaApi.h"
+// #include "rga.h"
+#include "im2d.h"
 
 typedef int(* FUNC_RGA_INIT)();
 typedef void(* FUNC_RGA_DEINIT)();
@@ -37,6 +39,7 @@ public:
     RgaProcessor& operator=(const RgaProcessor&) = delete;
     int rga_resize_init();
     void rga_resize( int src_fd, void *src_virt, int src_w, int src_h, int  dst_fd, void *dst_virt, int dst_w, int dst_h);
+    void letter_box_resize( int src_fd, void *src_virt, int src_w, int src_h, int  dst_fd, void *dst_virt, int dst_w, int dst_h);
     int rga_resize_deinit();
     rga_context* get_rga_context()
     {

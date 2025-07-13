@@ -128,6 +128,28 @@ void ObjectDetector::loadModel() {
 
 
 void ObjectDetector::detect() {
+  void*buffer;
+  {
+  std::unique_lock<std::mutex> lock(M_Detect_Mutex);
+  while(resize_buffer.empty()) 
+  {
+    Detect_Cond.wait(lock);
+  }
+  buffer=resize_buffer.front();
+  resize_buffer.pop();
+  Pre_Process_Cond.notify_one();  
+}
+  for (int i = 0; i < m_ioNum.n_output; ++i) {
+    rknn_set_io_mem(m_ctx, m_outputMems[i], &m_outputAttrs[i]);
+ }
+ rknn_input inputs[1];
+ memset(inputs, 0, sizeof(inputs));
+ inputs[0].index = 0;
+ inputs[0].type = RKNN_TENSOR_UINT8;
+ inputs[0].size = m_config.inputHeight*m_config.inputWidth*3;
+ inputs[0].fmt = RKNN_TENSOR_NHWC;
+ inputs[0].buf = buffer;
+ int ret = rknn_inputs_set(m_ctx, m_ioNum.n_input, inputs);
 
     if (!m_initialized) {
         throw MediaException(
@@ -135,7 +157,11 @@ void ObjectDetector::detect() {
             "Detector not initialized"
         );
     }
-
+    if (ret < 0)
+    {
+      printf("ERROR: rknn_inputs_set fail! ret=%d\n", ret);
+      return;
+    }
     
 
         // 预处理
@@ -147,13 +173,14 @@ void ObjectDetector::detect() {
         // 执行推理
         std::cout<<"rknn run"<<std::endl;
 
-        const int ret = rknn_run(m_ctx, nullptr);
+        ret = rknn_run(m_ctx, nullptr);
         if (ret != RKNN_SUCC) {
             throw MediaException(
                 MediaException::RUNTIME_PROCESSING,
                 "rknn_run failed. Error code: " + std::to_string(ret)
             );
         }
+        free(buffer);
         std::vector<float> outScales;
         std::vector<uint8_t> outZps;
         
@@ -165,6 +192,7 @@ void ObjectDetector::detect() {
         // 调用后处理函数
         
         memset(&result, 0, sizeof(result));
+        int min=std::min( m_interface->get_rga_width(), m_interface->get_rga_height()); 
         post_process(
             reinterpret_cast<uint8_t*>(m_outputMems[0]->logical_addr),
             reinterpret_cast<uint8_t*>(m_outputMems[1]->logical_addr),
@@ -174,8 +202,8 @@ void ObjectDetector::detect() {
             m_config.confThreshold,
             m_config.nmsThreshold,
             m_config.visThreshold,
-            (float)m_config.inputWidth / m_interface->get_rga_width(),  // 实际应传入原始帧尺寸
-            (float)m_config.inputHeight / m_interface->get_rga_height(),
+            (float)m_config.inputWidth /min , // 实际应传入原始帧尺寸
+            (float)m_config.inputHeight / min,
             outZps,
             outScales,
             &result
@@ -184,7 +212,7 @@ void ObjectDetector::detect() {
        
         // 后处理
          {
-   std::unique_lock<std::mutex> lock(M_Detect_Mutex);
+   std::unique_lock<std::mutex> lock(M_PostPocess_Mutex);
   while(inference_result.size()>num_buffer) 
   {
     Detect_Cond.wait(lock);
@@ -221,11 +249,19 @@ void ObjectDetector::preprocess(int index) {
     // std::cout<<"input_data"<<input_data<<std::endl;
     //  std::cout<<19<<std::endl; 
     //  std::cout<<"m_config.inputWidth,m_config.inputHeight"<<m_config.inputWidth<<","<<m_config.inputHeight<<std::endl;
-    m_interface->resize(-1, input_data, m_interface->get_rga_width(), m_interface->get_rga_height(), m_inputMems[0]->fd, nullptr, m_config.inputWidth,m_config.inputHeight);
-     rknn_set_io_mem(m_ctx, m_inputMems[0], &m_inputAttrs[0]);
-     for (int i = 0; i < m_ioNum.n_output; ++i) {
-        rknn_set_io_mem(m_ctx, m_outputMems[i], &m_outputAttrs[i]);
+    void *buffer=malloc(m_config.inputHeight*m_config.inputWidth*3);
+    m_interface->resize(-1, input_data, m_interface->get_rga_width(), m_interface->get_rga_height(), 0, buffer, m_config.inputWidth,m_config.inputHeight);
+    {
+      std::unique_lock<std::mutex> lock(M_Detect_Mutex);
+     while(resize_buffer.size()>num_buffer) 
+     {
+       Pre_Process_Cond.wait(lock);
      }
+    resize_buffer.push(buffer);
+    Detect_Cond.notify_one();
+    }
+    //  rknn_set_io_mem(m_ctx, m_inputMems[0], &m_inputAttrs[0]);
+
 
       //  std::cout<<16<<std::endl; 
 }
@@ -239,17 +275,17 @@ void ObjectDetector::get_frame(int index) { src_mb = RK_MPI_SYS_GetMediaBuffer(R
 
 void ObjectDetector::initializeIOMemory() {
     // 初始化输入内存
-    for (int i = 0; i < m_ioNum.n_input; ++i) {
-        m_inputMems.emplace_back(rknn_create_mem(m_ctx, m_inputAttrs[i].size));
-        if (!m_inputMems.back()) {
-            throw MediaException(
-                MediaException::BUFFER_ALLOC_FAILURE,
-                "Failed to allocate input memory for index " + std::to_string(i)
-            );
-        }
+    // for (int i = 0; i < m_ioNum.n_input; ++i) {
+    //     m_inputMems.emplace_back(rknn_create_mem(m_ctx, m_inputAttrs[i].size));
+    //     if (!m_inputMems.back()) {
+    //         throw MediaException(
+    //             MediaException::BUFFER_ALLOC_FAILURE,
+    //             "Failed to allocate input memory for index " + std::to_string(i)
+    //         );
+    //     }
             
 
-    }
+    // }
   //  std::cout<<13<<std::endl; 
 
     // 初始化输出内存
@@ -313,7 +349,7 @@ void ObjectDetector::postprocess(int index) {
        detect_result_group_t result;
        MEDIA_BUFFER input_dat;
       {
-       std::unique_lock<std::mutex> lock(M_Detect_Mutex);
+       std::unique_lock<std::mutex> lock(M_PostPocess_Mutex);
        while(inference_result.empty()) 
        {
         Post_Process_Cond.wait(lock);
@@ -385,9 +421,9 @@ void ObjectDetector::postprocess(int index) {
 
 void ObjectDetector::cleanup() {
     // 释放输入内存
-    for (auto& mem : m_inputMems) {
-        rknn_destroy_mem(m_ctx, mem);
-    }
+    // for (auto& mem : m_inputMems) {
+    //     rknn_destroy_mem(m_ctx, mem);
+    // }
     
     // 释放输出内存
     for (auto& mem : m_outputMems) {

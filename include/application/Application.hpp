@@ -30,7 +30,7 @@ private:
     void initializePipeline();
     // void startThreads();
     // void stopThreads();
-
+    void pre_process();
     void thread_inference();
     void thread_postprocess();
     // void processingLoop();

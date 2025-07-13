@@ -64,7 +64,7 @@ private:
     rknn_input_output_num m_ioNum;
     std::vector<rknn_tensor_attr> m_inputAttrs;
     std::vector<rknn_tensor_attr> m_outputAttrs;
-    std::vector<rknn_tensor_mem*> m_inputMems;
+    // std::vector<rknn_tensor_mem*> m_inputMems;
     std::vector<rknn_tensor_mem*> m_outputMems;
      MEDIA_BUFFER src_mb;
     bool m_initialized = false;
@@ -79,6 +79,7 @@ private:
 
 
     std::queue<MEDIA_BUFFER> input_buffer;
+    std::queue<void*> resize_buffer;
     std::queue<detect_result_group_t> inference_result;
     int detect_flag;
     int  output_flag;
