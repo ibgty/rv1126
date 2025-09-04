@@ -22,7 +22,7 @@
 #include <stdint.h>
 #include <iostream>
 //#define LABEL_NALE_TXT_PATH "/demo/bin/coco_80_labels_list.txt"
-#define LABEL_NALE_TXT_PATH "/demo/bin/coco_80_labels_list.txt"
+#define LABEL_NALE_TXT_PATH "/demo/bin/wider_face_list.txt"
 
 static char *labels[OBJ_CLASS_NUM];
 
@@ -272,6 +272,7 @@ int post_process(uint8_t *input0, uint8_t *input1, uint8_t *input2, int model_in
                  std::vector<uint8_t> &qnt_zps, std::vector<float> &qnt_scales,
                  detect_result_group_t *group)
 {
+  
     static int init = -1;
     if (init == -1)
     {
@@ -318,7 +319,7 @@ int post_process(uint8_t *input0, uint8_t *input1, uint8_t *input2, int model_in
     {
         return 0;
     }
-
+    // std::cout<<"debug13"<<std::endl;
     std::vector<int> indexArray;
     for (int i = 0; i < validCount; ++i)
     {
@@ -327,8 +328,10 @@ int post_process(uint8_t *input0, uint8_t *input1, uint8_t *input2, int model_in
 
     quick_sort_indice_inverse(boxesScore, 0, validCount - 1, indexArray);
 
+    // std::cout<<"debug14"<<std::endl;
     nms(validCount, filterBoxes, indexArray, nms_threshold);
 
+    // std::cout<<"debug15"<<std::endl;
     int last_count = 0;
     group->count = 0;
     /* box valid detect target */

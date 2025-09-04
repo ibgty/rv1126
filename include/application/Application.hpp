@@ -39,9 +39,7 @@ private:
     ObjectDetector* detect;
     std::atomic_bool m_running{false};
     FPSContext fps;
-    PerformanceMonitor perform_pre_process;
-    PerformanceMonitor perform_detect;
-    PerformanceMonitor perform_post_process;
+
 
     std::thread M_Processing_Thread;
     std::thread M_Detect_Thread;

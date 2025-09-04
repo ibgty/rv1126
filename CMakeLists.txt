@@ -1,7 +1,3 @@
-# @author        Liang Huanyan
-# @email         lianghuanyan@alientek.com
-# http://www.openedv.com/forum.php
-
 cmake_minimum_required(VERSION 3.8)
 project("yolov5")
 message(STATUS "cmake version ${CMAKE_VERSION}")
@@ -32,9 +28,9 @@ include_directories(${SYSROOT}/rknn)
 include_directories(.)
 include_directories(./include)
 include_directories(./include/3rdparty)
-include_directories(./include/3rdparty/drm/include/libdrm)
+# include_directories(./include/3rdparty/drm/include/libdrm)
 include_directories(./include/3rdparty/rga/include)
-include_directories(./include/3rdparty/CImg)
+# include_directories(./include/3rdparty/CImg)
 include_directories(./include/algorithm)
 include_directories(./include/application)
 include_directories(./include/core)
@@ -44,5 +40,5 @@ add_definitions(-DRKAIQ)
 
 # add_executable(test_demo ./src/*.cpp)
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
-add_executable(test_demo ${SOURCES})
-target_link_libraries(test_demo ${OPENCV_LIBS} ${RKNN_LIBS} pthread dl)
+add_executable(yolo ${SOURCES})
+target_link_libraries(yolo ${OPENCV_LIBS} ${RKNN_LIBS} pthread dl)

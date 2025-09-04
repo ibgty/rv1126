@@ -118,24 +118,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named test_demo
+# Target rules for targets named yolo
 
 # Build rule for target.
-test_demo: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test_demo
-.PHONY : test_demo
+yolo: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 yolo
+.PHONY : yolo
 
 # fast build rule for target.
-test_demo/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/build
-.PHONY : test_demo/fast
+yolo/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/build
+.PHONY : yolo/fast
 
 src/algorithm/ObjectDetector.o: src/algorithm/ObjectDetector.cpp.o
 .PHONY : src/algorithm/ObjectDetector.o
 
 # target to build an object file
 src/algorithm/ObjectDetector.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/algorithm/ObjectDetector.cpp.o
 .PHONY : src/algorithm/ObjectDetector.cpp.o
 
 src/algorithm/ObjectDetector.i: src/algorithm/ObjectDetector.cpp.i
@@ -143,7 +143,7 @@ src/algorithm/ObjectDetector.i: src/algorithm/ObjectDetector.cpp.i
 
 # target to preprocess a source file
 src/algorithm/ObjectDetector.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/algorithm/ObjectDetector.cpp.i
 .PHONY : src/algorithm/ObjectDetector.cpp.i
 
 src/algorithm/ObjectDetector.s: src/algorithm/ObjectDetector.cpp.s
@@ -151,7 +151,7 @@ src/algorithm/ObjectDetector.s: src/algorithm/ObjectDetector.cpp.s
 
 # target to generate assembly for a file
 src/algorithm/ObjectDetector.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/ObjectDetector.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/algorithm/ObjectDetector.cpp.s
 .PHONY : src/algorithm/ObjectDetector.cpp.s
 
 src/algorithm/postprocess.o: src/algorithm/postprocess.cpp.o
@@ -159,7 +159,7 @@ src/algorithm/postprocess.o: src/algorithm/postprocess.cpp.o
 
 # target to build an object file
 src/algorithm/postprocess.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/postprocess.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/algorithm/postprocess.cpp.o
 .PHONY : src/algorithm/postprocess.cpp.o
 
 src/algorithm/postprocess.i: src/algorithm/postprocess.cpp.i
@@ -167,7 +167,7 @@ src/algorithm/postprocess.i: src/algorithm/postprocess.cpp.i
 
 # target to preprocess a source file
 src/algorithm/postprocess.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/postprocess.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/algorithm/postprocess.cpp.i
 .PHONY : src/algorithm/postprocess.cpp.i
 
 src/algorithm/postprocess.s: src/algorithm/postprocess.cpp.s
@@ -175,7 +175,7 @@ src/algorithm/postprocess.s: src/algorithm/postprocess.cpp.s
 
 # target to generate assembly for a file
 src/algorithm/postprocess.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/algorithm/postprocess.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/algorithm/postprocess.cpp.s
 .PHONY : src/algorithm/postprocess.cpp.s
 
 src/application/Application.o: src/application/Application.cpp.o
@@ -183,7 +183,7 @@ src/application/Application.o: src/application/Application.cpp.o
 
 # target to build an object file
 src/application/Application.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/application/Application.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/application/Application.cpp.o
 .PHONY : src/application/Application.cpp.o
 
 src/application/Application.i: src/application/Application.cpp.i
@@ -191,7 +191,7 @@ src/application/Application.i: src/application/Application.cpp.i
 
 # target to preprocess a source file
 src/application/Application.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/application/Application.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/application/Application.cpp.i
 .PHONY : src/application/Application.cpp.i
 
 src/application/Application.s: src/application/Application.cpp.s
@@ -199,7 +199,7 @@ src/application/Application.s: src/application/Application.cpp.s
 
 # target to generate assembly for a file
 src/application/Application.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/application/Application.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/application/Application.cpp.s
 .PHONY : src/application/Application.cpp.s
 
 src/core/MediaException.o: src/core/MediaException.cpp.o
@@ -207,7 +207,7 @@ src/core/MediaException.o: src/core/MediaException.cpp.o
 
 # target to build an object file
 src/core/MediaException.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/MediaException.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/core/MediaException.cpp.o
 .PHONY : src/core/MediaException.cpp.o
 
 src/core/MediaException.i: src/core/MediaException.cpp.i
@@ -215,7 +215,7 @@ src/core/MediaException.i: src/core/MediaException.cpp.i
 
 # target to preprocess a source file
 src/core/MediaException.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/MediaException.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/core/MediaException.cpp.i
 .PHONY : src/core/MediaException.cpp.i
 
 src/core/MediaException.s: src/core/MediaException.cpp.s
@@ -223,7 +223,7 @@ src/core/MediaException.s: src/core/MediaException.cpp.s
 
 # target to generate assembly for a file
 src/core/MediaException.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/MediaException.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/core/MediaException.cpp.s
 .PHONY : src/core/MediaException.cpp.s
 
 src/core/main.o: src/core/main.cpp.o
@@ -231,7 +231,7 @@ src/core/main.o: src/core/main.cpp.o
 
 # target to build an object file
 src/core/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/core/main.cpp.o
 .PHONY : src/core/main.cpp.o
 
 src/core/main.i: src/core/main.cpp.i
@@ -239,7 +239,7 @@ src/core/main.i: src/core/main.cpp.i
 
 # target to preprocess a source file
 src/core/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/core/main.cpp.i
 .PHONY : src/core/main.cpp.i
 
 src/core/main.s: src/core/main.cpp.s
@@ -247,7 +247,7 @@ src/core/main.s: src/core/main.cpp.s
 
 # target to generate assembly for a file
 src/core/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/core/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/core/main.cpp.s
 .PHONY : src/core/main.cpp.s
 
 src/hardware/RgaProcessor.o: src/hardware/RgaProcessor.cpp.o
@@ -255,7 +255,7 @@ src/hardware/RgaProcessor.o: src/hardware/RgaProcessor.cpp.o
 
 # target to build an object file
 src/hardware/RgaProcessor.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/RgaProcessor.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/RgaProcessor.cpp.o
 .PHONY : src/hardware/RgaProcessor.cpp.o
 
 src/hardware/RgaProcessor.i: src/hardware/RgaProcessor.cpp.i
@@ -263,7 +263,7 @@ src/hardware/RgaProcessor.i: src/hardware/RgaProcessor.cpp.i
 
 # target to preprocess a source file
 src/hardware/RgaProcessor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/RgaProcessor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/RgaProcessor.cpp.i
 .PHONY : src/hardware/RgaProcessor.cpp.i
 
 src/hardware/RgaProcessor.s: src/hardware/RgaProcessor.cpp.s
@@ -271,7 +271,7 @@ src/hardware/RgaProcessor.s: src/hardware/RgaProcessor.cpp.s
 
 # target to generate assembly for a file
 src/hardware/RgaProcessor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/RgaProcessor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/RgaProcessor.cpp.s
 .PHONY : src/hardware/RgaProcessor.cpp.s
 
 src/hardware/VideoInput.o: src/hardware/VideoInput.cpp.o
@@ -279,7 +279,7 @@ src/hardware/VideoInput.o: src/hardware/VideoInput.cpp.o
 
 # target to build an object file
 src/hardware/VideoInput.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/VideoInput.cpp.o
 .PHONY : src/hardware/VideoInput.cpp.o
 
 src/hardware/VideoInput.i: src/hardware/VideoInput.cpp.i
@@ -287,7 +287,7 @@ src/hardware/VideoInput.i: src/hardware/VideoInput.cpp.i
 
 # target to preprocess a source file
 src/hardware/VideoInput.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/VideoInput.cpp.i
 .PHONY : src/hardware/VideoInput.cpp.i
 
 src/hardware/VideoInput.s: src/hardware/VideoInput.cpp.s
@@ -295,7 +295,7 @@ src/hardware/VideoInput.s: src/hardware/VideoInput.cpp.s
 
 # target to generate assembly for a file
 src/hardware/VideoInput.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoInput.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/VideoInput.cpp.s
 .PHONY : src/hardware/VideoInput.cpp.s
 
 src/hardware/VideoOutput.o: src/hardware/VideoOutput.cpp.o
@@ -303,7 +303,7 @@ src/hardware/VideoOutput.o: src/hardware/VideoOutput.cpp.o
 
 # target to build an object file
 src/hardware/VideoOutput.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/VideoOutput.cpp.o
 .PHONY : src/hardware/VideoOutput.cpp.o
 
 src/hardware/VideoOutput.i: src/hardware/VideoOutput.cpp.i
@@ -311,7 +311,7 @@ src/hardware/VideoOutput.i: src/hardware/VideoOutput.cpp.i
 
 # target to preprocess a source file
 src/hardware/VideoOutput.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/VideoOutput.cpp.i
 .PHONY : src/hardware/VideoOutput.cpp.i
 
 src/hardware/VideoOutput.s: src/hardware/VideoOutput.cpp.s
@@ -319,7 +319,7 @@ src/hardware/VideoOutput.s: src/hardware/VideoOutput.cpp.s
 
 # target to generate assembly for a file
 src/hardware/VideoOutput.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/VideoOutput.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/VideoOutput.cpp.s
 .PHONY : src/hardware/VideoOutput.cpp.s
 
 src/hardware/interface.o: src/hardware/interface.cpp.o
@@ -327,7 +327,7 @@ src/hardware/interface.o: src/hardware/interface.cpp.o
 
 # target to build an object file
 src/hardware/interface.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/interface.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/interface.cpp.o
 .PHONY : src/hardware/interface.cpp.o
 
 src/hardware/interface.i: src/hardware/interface.cpp.i
@@ -335,7 +335,7 @@ src/hardware/interface.i: src/hardware/interface.cpp.i
 
 # target to preprocess a source file
 src/hardware/interface.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/interface.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/interface.cpp.i
 .PHONY : src/hardware/interface.cpp.i
 
 src/hardware/interface.s: src/hardware/interface.cpp.s
@@ -343,7 +343,7 @@ src/hardware/interface.s: src/hardware/interface.cpp.s
 
 # target to generate assembly for a file
 src/hardware/interface.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/hardware/interface.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/hardware/interface.cpp.s
 .PHONY : src/hardware/interface.cpp.s
 
 src/utils/get_fps.o: src/utils/get_fps.cpp.o
@@ -351,7 +351,7 @@ src/utils/get_fps.o: src/utils/get_fps.cpp.o
 
 # target to build an object file
 src/utils/get_fps.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/utils/get_fps.cpp.o
 .PHONY : src/utils/get_fps.cpp.o
 
 src/utils/get_fps.i: src/utils/get_fps.cpp.i
@@ -359,7 +359,7 @@ src/utils/get_fps.i: src/utils/get_fps.cpp.i
 
 # target to preprocess a source file
 src/utils/get_fps.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/utils/get_fps.cpp.i
 .PHONY : src/utils/get_fps.cpp.i
 
 src/utils/get_fps.s: src/utils/get_fps.cpp.s
@@ -367,7 +367,7 @@ src/utils/get_fps.s: src/utils/get_fps.cpp.s
 
 # target to generate assembly for a file
 src/utils/get_fps.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/get_fps.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/utils/get_fps.cpp.s
 .PHONY : src/utils/get_fps.cpp.s
 
 src/utils/​​performance_monitor.o: src/utils/​​performance_monitor.cpp.o
@@ -375,7 +375,7 @@ src/utils/​​performance_monitor.o: src/utils/​​performance_monitor.cpp.o
 
 # target to build an object file
 src/utils/​​performance_monitor.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/utils/​​performance_monitor.cpp.o
 .PHONY : src/utils/​​performance_monitor.cpp.o
 
 src/utils/​​performance_monitor.i: src/utils/​​performance_monitor.cpp.i
@@ -383,7 +383,7 @@ src/utils/​​performance_monitor.i: src/utils/​​performance_monitor.cpp.i
 
 # target to preprocess a source file
 src/utils/​​performance_monitor.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/utils/​​performance_monitor.cpp.i
 .PHONY : src/utils/​​performance_monitor.cpp.i
 
 src/utils/​​performance_monitor.s: src/utils/​​performance_monitor.cpp.s
@@ -391,7 +391,7 @@ src/utils/​​performance_monitor.s: src/utils/​​performance_monitor.cpp.s
 
 # target to generate assembly for a file
 src/utils/​​performance_monitor.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test_demo.dir/build.make CMakeFiles/test_demo.dir/src/utils/​​performance_monitor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/yolo.dir/build.make CMakeFiles/yolo.dir/src/utils/​​performance_monitor.cpp.s
 .PHONY : src/utils/​​performance_monitor.cpp.s
 
 # Help Target
@@ -402,7 +402,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... test_demo"
+	@echo "... yolo"
 	@echo "... src/algorithm/ObjectDetector.o"
 	@echo "... src/algorithm/ObjectDetector.i"
 	@echo "... src/algorithm/ObjectDetector.s"

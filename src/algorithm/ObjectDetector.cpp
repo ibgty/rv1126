@@ -7,7 +7,7 @@
 #include "rknn_api.h"
 #include "rkmedia_api.h"
 #include "opencv2/opencv.hpp"
-
+#include "performance_monitor.hpp"
     // 辅助函数：加载模型文件
     std::vector<uint8_t> loadModelFile(const std::string& path) {
         std::ifstream file(path, std::ios::binary);
@@ -56,7 +56,7 @@ ObjectDetector::ObjectDetector()
         throw;
     }
     m_interface=interface::getInstance();
-
+    first_frame=-1;
     num_buffer=10;
 }
 
@@ -127,144 +127,8 @@ void ObjectDetector::loadModel() {
 
 
 
-void ObjectDetector::detect() {
-  void*buffer;
-  {
-  std::unique_lock<std::mutex> lock(M_Detect_Mutex);
-  while(resize_buffer.empty()) 
-  {
-    Detect_Cond.wait(lock);
-  }
-  buffer=resize_buffer.front();
-  resize_buffer.pop();
-  Pre_Process_Cond.notify_one();  
-}
-  for (int i = 0; i < m_ioNum.n_output; ++i) {
-    rknn_set_io_mem(m_ctx, m_outputMems[i], &m_outputAttrs[i]);
- }
- rknn_input inputs[1];
- memset(inputs, 0, sizeof(inputs));
- inputs[0].index = 0;
- inputs[0].type = RKNN_TENSOR_UINT8;
- inputs[0].size = m_config.inputHeight*m_config.inputWidth*3;
- inputs[0].fmt = RKNN_TENSOR_NHWC;
- inputs[0].buf = buffer;
- int ret = rknn_inputs_set(m_ctx, m_ioNum.n_input, inputs);
-
-    if (!m_initialized) {
-        throw MediaException(
-            MediaException::RKNN_INIT_FAILURE,
-            "Detector not initialized"
-        );
-    }
-    if (ret < 0)
-    {
-      printf("ERROR: rknn_inputs_set fail! ret=%d\n", ret);
-      return;
-    }
-    
-
-        // 预处理
-        // src_mb = RK_MPI_SYS_GetMediaBuffer(RK_ID_RGA, 0, -1);
-      // 零拷贝: 直接使用输入内存
-        // unsigned char *input_data = (unsigned char *)RK_MPI_MB_GetPtr(src_mb);
-        // preprocess(input_data);
-        
-        // 执行推理
-        std::cout<<"rknn run"<<std::endl;
-
-        ret = rknn_run(m_ctx, nullptr);
-        if (ret != RKNN_SUCC) {
-            throw MediaException(
-                MediaException::RUNTIME_PROCESSING,
-                "rknn_run failed. Error code: " + std::to_string(ret)
-            );
-        }
-        free(buffer);
-        std::vector<float> outScales;
-        std::vector<uint8_t> outZps;
-        
-        for (const auto& attr : m_outputAttrs) {
-            outScales.push_back(attr.scale);
-            outZps.push_back(attr.zp);
-        }
-    
-        // 调用后处理函数
-        
-        memset(&result, 0, sizeof(result));
-        int min=std::min( m_interface->get_rga_width(), m_interface->get_rga_height()); 
-        post_process(
-            reinterpret_cast<uint8_t*>(m_outputMems[0]->logical_addr),
-            reinterpret_cast<uint8_t*>(m_outputMems[1]->logical_addr),
-            reinterpret_cast<uint8_t*>(m_outputMems[2]->logical_addr),
-            m_config.inputHeight,
-            m_config.inputWidth,
-            m_config.confThreshold,
-            m_config.nmsThreshold,
-            m_config.visThreshold,
-            (float)m_config.inputWidth /min , // 实际应传入原始帧尺寸
-            (float)m_config.inputHeight / min,
-            outZps,
-            outScales,
-            &result
-        ); 
-
-       
-        // 后处理
-         {
-   std::unique_lock<std::mutex> lock(M_PostPocess_Mutex);
-  while(inference_result.size()>num_buffer) 
-  {
-    Detect_Cond.wait(lock);
-  }
-    // 假设frame已经是RGB888格式且尺寸匹配
-    // 实际应添加格式转换和缩放逻辑
-    inference_result.push(result);
-  Post_Process_Cond.notify_one(); 
-} 
-
-  // std::cout<<"debug"<<2<<std::endl;
-    
-   
-}
-void ObjectDetector::preprocess(int index) {
-  {
-   std::unique_lock<std::mutex> lock(M_Processing_Mutex);
-  while(input_buffer.size()>num_buffer) 
-  {
-    Pre_Process_Cond.wait(lock);
-  }
-    // 假设frame已经是RGB888格式且尺寸匹配
-    // 实际应添加格式转换和缩放逻辑
-    get_frame(index);
-  input_buffer.push(src_mb);
-    Post_Process_Cond.notify_one(); 
-}
-    unsigned char *input_data = (unsigned char *)RK_MPI_MB_GetPtr(src_mb); 
-    // if(!input_data)
-    // {
-    //   std::cout<<"input_data get fail"<<std::endl;
-    //   std::cout<<"input_data get fail"<<std::endl;
-    // }
-    // std::cout<<"input_data"<<input_data<<std::endl;
-    //  std::cout<<19<<std::endl; 
-    //  std::cout<<"m_config.inputWidth,m_config.inputHeight"<<m_config.inputWidth<<","<<m_config.inputHeight<<std::endl;
-    void *buffer=malloc(m_config.inputHeight*m_config.inputWidth*3);
-    m_interface->resize(-1, input_data, m_interface->get_rga_width(), m_interface->get_rga_height(), 0, buffer, m_config.inputWidth,m_config.inputHeight);
-    {
-      std::unique_lock<std::mutex> lock(M_Detect_Mutex);
-     while(resize_buffer.size()>num_buffer) 
-     {
-       Pre_Process_Cond.wait(lock);
-     }
-    resize_buffer.push(buffer);
-    Detect_Cond.notify_one();
-    }
-    //  rknn_set_io_mem(m_ctx, m_inputMems[0], &m_inputAttrs[0]);
 
 
-      //  std::cout<<16<<std::endl; 
-}
 void ObjectDetector::get_frame(int index) { src_mb = RK_MPI_SYS_GetMediaBuffer(RK_ID_RGA, 0, -1); if(!src_mb) { throw MediaException( MediaException::FRAME_ACQUIRE_FAILURE, "RK_MPI_SYS_GetMediaBuffer failed. ");
         }
   // if(!src_mb)
@@ -344,80 +208,7 @@ std::cout << "model input height=" << *height
           << std::endl;
 }
 
-void ObjectDetector::postprocess(int index) {
 
-       detect_result_group_t result;
-       MEDIA_BUFFER input_dat;
-      {
-       std::unique_lock<std::mutex> lock(M_PostPocess_Mutex);
-       while(inference_result.empty()) 
-       {
-        Post_Process_Cond.wait(lock);
-       }
-        result=inference_result.front();
-       inference_result.pop();
-       Detect_Cond.notify_one(); 
-      }
-      {
-        std::unique_lock<std::mutex> lock(M_Processing_Mutex);
-        while(input_buffer.empty()) 
-        {
-         Post_Process_Cond.wait(lock);
-        }
-         input_dat=input_buffer.front();
-        input_buffer.pop();
-        Pre_Process_Cond.notify_one(); 
-       }
-    // 转换结果格式
-    // printf("resutl_count:%d\n",result.count);
-    for (int i = 0; i <result.count; ++i) {
-        auto& det_result = result.results[i];
-        // result.boxes.emplace_back(BBox{
-        //     det.box.left,
-        //     det.box.top,
-        //     det.box.right,
-        //     det.box.bottom,
-        //     det.prop,
-        //     det.classId
-        // });
-        
-        // 类别标签映射（示例）
-        // result.labels.emplace_back(std::to_string(det.classId));
-              int left = det_result.box.left;
-      int top = det_result.box.top;
-      int right = det_result.box.right;
-      int bottom = det_result.box.bottom;
-      int w = (det_result.box.right - det_result.box.left) ;
-      int h = (det_result.box.bottom - det_result.box.top) ;
-            if (left < 0)
-      {
-        left = 0;
-      }
-      if (top < 0)
-      {
-        top = 0;
-      }
-
-      while ((uint32_t)(left + w) >= m_interface->get_rga_width())
-      {
-        w -= 16;
-      }
-      while ((uint32_t)(top + h) >= m_interface->get_rga_height())
-      {
-        h -= 16;
-      }
-      std::cout << "border=(" << left << " " << top << " " << w << " " << h << ")\n";
-      using namespace cv;
-      Mat orig_img = Mat(m_interface->get_rga_height(),  m_interface->get_rga_width(), CV_8UC3, RK_MPI_MB_GetPtr(input_dat));//黑白灰图案
-      cv::rectangle(orig_img,cv::Point(left, top),cv::Point(right, bottom),cv::Scalar(0,255,255),5,8,0);
-      putText(orig_img, result.results[i].name, Point(left, top-16), FONT_HERSHEY_TRIPLEX, 3, Scalar(0,0,255),4,8,0);
-    }
-    // printf("ok\n");
-        RK_MPI_SYS_SendMediaBuffer(RK_ID_VO, 0, input_dat);
-    RK_MPI_MB_ReleaseBuffer(input_dat);
-
-    input_dat = nullptr;
-}
 
 void ObjectDetector::cleanup() {
     // 释放输入内存
@@ -434,4 +225,239 @@ void ObjectDetector::cleanup() {
     if (m_ctx) {
         rknn_destroy(m_ctx);
     }
+}
+void ObjectDetector::preprocess(int index) {
+  if(first_frame==-1)
+  {
+  first_frame=1;
+  }
+  else if(first_frame==1)
+  {
+  first_frame=0; 
+  }
+  {
+  //  std::cout<<"debug1"<<std::endl;
+   std::unique_lock<std::mutex> lock(M_Processing_Mutex);
+  while(input_buffer.size()>num_buffer) 
+  {
+    Pre_Process_Cond.wait(lock);
+  }
+  //  std::cout<<"debug2"<<std::endl;
+    get_frame(index);
+    // RK_MPI_SYS_SendMediaBuffer(RK_ID_VO, 0, src_mb);
+    // if(first_frame==0)
+    // {
+  input_buffer.push(src_mb);
+    // }
+    Post_Process_Cond.notify_one(); 
+}
+// get_frame(index);
+// RK_MPI_SYS_SendMediaBuffer(RK_ID_VO, 0, src_mb);
+// // std::this_thread::sleep_for(std::chrono::seconds(1));
+// RK_MPI_MB_ReleaseBuffer(src_mb);
+perform_pre_process.begin(Stage::IM_PREPROCESS);
+    unsigned char *input_data = (unsigned char *)RK_MPI_MB_GetPtr(src_mb); 
+    void *buffer=malloc(m_config.inputHeight*m_config.inputWidth*3);
+    m_interface->resize(-1, input_data, m_interface->get_rga_width(), m_interface->get_rga_height(), 0, buffer, m_config.inputWidth,m_config.inputHeight);
+perform_pre_process.end();
+    {
+  //  std::cout<<"debug3"<<std::endl;
+      std::unique_lock<std::mutex> lock(M_Detect_Mutex);
+     while(resize_buffer.size()>num_buffer) 
+     {
+       Pre_Process_Cond.wait(lock);
+     }
+  //  std::cout<<"debug4"<<std::endl;
+    resize_buffer.push(buffer);
+    Detect_Cond.notify_one();
+    }
+    //  rknn_set_io_mem(m_ctx, m_inputMems[0], &m_inputAttrs[0]);
+
+
+      //  std::cout<<16<<std::endl; 
+}
+void ObjectDetector::detect() {
+  void*buffer;
+  {
+  //  std::cout<<"debug5"<<std::endl;
+  std::unique_lock<std::mutex> lock(M_Detect_Mutex);
+  while(resize_buffer.empty()) 
+  {
+    Detect_Cond.wait(lock);
+  }
+  //  std::cout<<"debug6"<<std::endl;
+  buffer=resize_buffer.front();
+  resize_buffer.pop();
+  Pre_Process_Cond.notify_one();  
+}
+perform_detect.begin(Stage::INFERENCE);
+  for (int i = 0; i < m_ioNum.n_output; ++i) {
+    rknn_set_io_mem(m_ctx, m_outputMems[i], &m_outputAttrs[i]);
+ }
+ rknn_input inputs[1];
+ memset(inputs, 0, sizeof(inputs));
+ inputs[0].index = 0;
+ inputs[0].type = RKNN_TENSOR_UINT8;
+ inputs[0].size = m_config.inputHeight*m_config.inputWidth*3;
+ inputs[0].fmt = RKNN_TENSOR_NHWC;
+ inputs[0].buf = buffer;
+ int ret = rknn_inputs_set(m_ctx, m_ioNum.n_input, inputs);
+
+    if (!m_initialized) {
+        throw MediaException(
+            MediaException::RKNN_INIT_FAILURE,
+            "Detector not initialized"
+        );
+    }
+    if (ret < 0)
+    {
+      printf("ERROR: rknn_inputs_set fail! ret=%d\n", ret);
+      return;
+    }
+    
+
+        // 预处理
+        // src_mb = RK_MPI_SYS_GetMediaBuffer(RK_ID_RGA, 0, -1);
+      // 零拷贝: 直接使用输入内存
+        // unsigned char *input_data = (unsigned char *)RK_MPI_MB_GetPtr(src_mb);
+        // preprocess(input_data);
+        
+        // 执行推理
+        std::cout<<"rknn run"<<std::endl;
+
+        ret = rknn_run(m_ctx, nullptr);
+        if (ret != RKNN_SUCC) {
+            throw MediaException(
+                MediaException::RUNTIME_PROCESSING,
+                "rknn_run failed. Error code: " + std::to_string(ret)
+            );
+        }
+        
+        std::vector<float> outScales;
+        std::vector<uint8_t> outZps;
+        
+        for (const auto& attr : m_outputAttrs) {
+            outScales.push_back(attr.scale);
+            outZps.push_back(attr.zp);
+        }
+    
+        // 调用后处理函数
+        
+        memset(&result, 0, sizeof(result));
+        int min=std::min( m_interface->get_rga_width(), m_interface->get_rga_height()); 
+        
+        post_process(
+            reinterpret_cast<uint8_t*>(m_outputMems[0]->logical_addr),
+            reinterpret_cast<uint8_t*>(m_outputMems[1]->logical_addr),
+            reinterpret_cast<uint8_t*>(m_outputMems[2]->logical_addr),
+            m_config.inputHeight,
+            m_config.inputWidth,
+            m_config.confThreshold,
+            m_config.nmsThreshold,
+            m_config.visThreshold,
+            (float)m_config.inputWidth /min , // 实际应传入原始帧尺寸
+            (float)m_config.inputHeight / min,
+            outZps,
+            outScales,
+            &result
+        ); 
+        free(buffer);
+perform_detect.end();
+        // 后处理
+         {
+  // std::cout<<"debug7"<<std::endl;
+   std::unique_lock<std::mutex> lock(M_PostPocess_Mutex);
+  while(inference_result.size()>num_buffer) 
+  {
+    Detect_Cond.wait(lock);
+  }
+  // std::cout<<"debug8"<<std::endl;
+    // 假设frame已经是RGB888格式且尺寸匹配
+    // 实际应添加格式转换和缩放逻辑
+    inference_result.push(result);
+  Post_Process_Cond.notify_one(); 
+} 
+
+  // std::cout<<"debug"<<2<<std::endl;
+    
+   
+}
+void ObjectDetector::postprocess(int index) {
+
+  detect_result_group_t result;
+  MEDIA_BUFFER input_dat;
+ {
+  //  std::cout<<"debug9"<<std::endl;
+  std::unique_lock<std::mutex> lock(M_PostPocess_Mutex);
+  while(inference_result.empty()) 
+  {
+   Post_Process_Cond.wait(lock);
+  }
+  //  std::cout<<"debug10"<<std::endl;
+   result=inference_result.front();
+  inference_result.pop();
+  Detect_Cond.notify_one(); 
+ }
+ {
+  //  std::cout<<"debug11"<<std::endl;
+   std::unique_lock<std::mutex> lock(M_Processing_Mutex);
+   while(input_buffer.empty()) 
+   {
+    Post_Process_Cond.wait(lock);
+   }
+  //  std::cout<<"debug12"<<std::endl;
+    input_dat=input_buffer.front();
+   input_buffer.pop();
+   Pre_Process_Cond.notify_one(); 
+  }
+  perform_post_process.begin(Stage::POSTPROCESS_RENDER);
+// printf("resutl_count:%d\n",result.count);
+for (int i = 0; i <result.count; ++i) {
+   auto& det_result = result.results[i];
+   // result.boxes.emplace_back(BBox{
+   //     det.box.left,
+   //     det.box.top,
+   //     det.box.right,
+   //     det.box.bottom,
+   //     det.prop,
+   //     det.classId
+   // });
+   
+   // 类别标签映射（示例）
+   // result.labels.emplace_back(std::to_string(det.classId));
+         int left = det_result.box.left;
+ int top = det_result.box.top;
+ int right = det_result.box.right;
+ int bottom = det_result.box.bottom;
+ int w = (det_result.box.right - det_result.box.left) ;
+ int h = (det_result.box.bottom - det_result.box.top) ;
+       if (left < 0)
+ {
+   left = 0;
+ }
+ if (top < 0)
+ {
+   top = 0;
+ }
+
+ while ((uint32_t)(left + w) >= m_interface->get_rga_width())
+ {
+   w -= 16;
+ }
+ while ((uint32_t)(top + h) >= m_interface->get_rga_height())
+ {
+   h -= 16;
+ }
+ std::cout << "border=(" << left << " " << top << " " << w << " " << h << ")\n";
+ using namespace cv;
+ Mat orig_img = Mat(m_interface->get_rga_height(),  m_interface->get_rga_width(), CV_8UC3, RK_MPI_MB_GetPtr(input_dat));//黑白灰图案
+ cv::rectangle(orig_img,cv::Point(left, top),cv::Point(right, bottom),cv::Scalar(0,255,255),5,8,0);
+ putText(orig_img, result.results[i].name, Point(left, top-16), FONT_HERSHEY_TRIPLEX, 3, Scalar(0,0,255),4,8,0);
+}
+// printf("ok\n");
+   RK_MPI_SYS_SendMediaBuffer(RK_ID_VO, 0, input_dat);
+RK_MPI_MB_ReleaseBuffer(input_dat);
+
+input_dat = nullptr;
+perform_post_process.end();
 }

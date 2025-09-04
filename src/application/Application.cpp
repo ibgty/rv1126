@@ -26,10 +26,9 @@ void Application::pre_process()
 {
   while(1)
   {
-  // std::cout<<1<<std::endl;
-  perform_pre_process.begin(Stage::IM_PREPROCESS);
+  // perform_pre_process.begin(Stage::IM_PREPROCESS);
   detect->preprocess(0);
-  perform_pre_process.end();
+  // perform_pre_process.end();
   }
 }
 void Application::thread_inference()
@@ -37,9 +36,7 @@ void Application::thread_inference()
 
   while(1)
   {
-  perform_detect.begin(Stage::INFERENCE);
   detect->detect();
-  perform_detect.end();
   }
 }
 void Application::thread_postprocess()
@@ -47,9 +44,9 @@ void Application::thread_postprocess()
 
   while(1)
   {
-    perform_post_process.begin(Stage::POSTPROCESS_RENDER);
+    // perform_post_process.begin(Stage::POSTPROCESS_RENDER);
   detect->postprocess(0);
-  perform_post_process.end();
+  // perform_post_process.end();
   // std::cout<<3<<std::endl;
   fps.calculate_fps();
   // std::cout<<4<<std::endl; 
@@ -57,38 +54,34 @@ void Application::thread_postprocess()
 }
 void Application::run() {
     m_running = true;
-    // for(int i=0;i<3;i++)
-    // {
-      
-    // }
     std::thread threads[3];
-    threads[0]=std::thread(&Application::pre_process,this);
-    threads[1]=std::thread(&Application::thread_inference,this);
-    threads[2]=std::thread(&Application::thread_postprocess,this);
+    // threads[0]=std::thread(&Application::pre_process,this);
+    // threads[1]=std::thread(&Application::thread_inference,this);
+    // threads[2]=std::thread(&Application::thread_postprocess,this);
     while(1)
     {
     // std::cout<<"debug"<<1<<std::endl;
       // perform_pre_process.begin(Stage::IM_PREPROCESS);
-      // detect->preprocess(0);
+      detect->preprocess(0);
       // perform_pre_process.end();
-      // // std::cout<<"debug"<<2<<std::endl;
+      // std::cout<<"debug"<<2<<std::endl;
       // perform_detect.begin(Stage::INFERENCE);
-      // detect->detect();
+      detect->detect();
       // perform_detect.end();
-      // // std::cout<<"debug"<<3<<std::endl;
+      // std::cout<<"debug"<<2<<std::endl;
       // perform_post_process.begin(Stage::POSTPROCESS_RENDER);
-      // detect->postprocess(0);
+      detect->postprocess(0);
       // perform_post_process.end();
-      // // std::cout<<3<<std::endl;
+      // std::cout<<3<<std::endl;
       // fps.calculate_fps();
-      // print("hello\n");
+      // printf("hello\n");
       
       // std::cout<<0<<std::endl;
       
       // thread_inference();
       // thread_postprocess();
       // std::cout<<2<<std::endl;
-
+      // std::this_thread::sleep_for(std::chrono::seconds(9999999));
     }
     // startThreads();
 }

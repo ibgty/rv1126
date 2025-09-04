@@ -17,6 +17,7 @@
 #include <condition_variable>
 #include <queue>
 
+#include"performance_monitor.hpp"
 class ObjectDetector {
 public:
     /*
@@ -85,6 +86,10 @@ private:
     int  output_flag;
     int num_buffer;
 
+    int first_frame;
+    PerformanceMonitor perform_pre_process;
+    PerformanceMonitor perform_detect;
+    PerformanceMonitor perform_post_process;
 };
 
 
