@@ -95,7 +95,7 @@
 
 量化成int8类型的模型量化误差如下
 
-![individual_qnt_error_analysis](https://github.com/ibgty/rv1126/blob/main/rknn_convertor/log/\individual_qnt_error_analysis.png)
+![individual_qnt_error_analysis](https://github.com/ibgty/rv1126/blob/main/rknn_convertor/log/individual_qnt_error_analysis.png)
 
 ![entire_qnt_error_analysis](https://github.com/ibgty/rv1126/blob/main/rknn_convertor/log/entire_qnt_error_analysis.png)
 
