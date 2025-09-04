@@ -97,7 +97,7 @@
 
 ![individual_qnt_error_analysis](rknn_convertor\log\individual_qnt_error_analysis.png)
 
-![entire_qnt_error_analysis](rknn_convertor\log\entire_qnt_error_analysis.png)
+![entire_qnt_error_analysis](https://github.com/ibgty/rv1126/blob/main/rknn_convertor/log/entire_qnt_error_analysis.png)
 
 # 性能测试
 
