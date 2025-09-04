@@ -95,7 +95,7 @@
 
 量化成int8类型的模型量化误差如下
 
-![individual_qnt_error_analysis](rknn_convertor\log\individual_qnt_error_analysis.png)
+![individual_qnt_error_analysis](https://github.com/ibgty/rv1126/blob/main/rknn_convertor/log/\individual_qnt_error_analysis.png)
 
 ![entire_qnt_error_analysis](https://github.com/ibgty/rv1126/blob/main/rknn_convertor/log/entire_qnt_error_analysis.png)
 
@@ -103,7 +103,7 @@
 
 测试环境为寝室，拍摄设备为自用手机，测试视频如下
 
-![test](video/test.mp4)
+![test](https://github.com/ibgty/rv1126/blob/main/video/test.mp4)
 
 # 参考链接
 
