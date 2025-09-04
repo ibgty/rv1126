@@ -103,7 +103,7 @@
 
 测试环境为寝室，拍摄设备为自用手机，测试视频如下
 
-![test](https://github.com/ibgty/rv1126/blob/main/video/test.mp4)
+![test](https://github.com/user-attachments/assets/d16c48f2-783c-4b0f-9feb-17a051caf996)
 
 # 参考链接
 
