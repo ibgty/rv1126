@@ -1,28 +1,27 @@
-import re
+import matplotlib.pyplot as plt
 import pandas as pd
-import plotly.graph_objects as go
-from plotly.subplots import make_subplots
+import numpy as np
+import re
 
-# 解析文本文件并创建 DataFrame `df`
-file_path = '../log/entire_qnt_error_analysis.txt'
+# Your data parsing code remains the same
+file_path = '../log/individual_qnt_error_analysis.txt'
 data = []
-# print("1")
+
 with open(file_path, 'r') as f:
     for line in f:
         line = line.strip()
-        if not line:  # 跳过空行
+        if not line:  # Skip empty lines
             continue
-        # print("1")
         
-        # 使用正则表达式提取层名称和范数值
-        layer_match = re.search(r'(\S+\.npy)', line)
+        # Use regex to extract layer names and norm values
+        layer_match = re.search(r'(\d+\s+)?([^\t]+)', line)
         euclidean_match = re.search(r'eculidean_norm=([0-9.]+)', line)
         cosine_match = re.search(r'cosine_norm=([0-9.]+)', line)
         
-        if layer_match:
-            layer_name = layer_match.group(1)
-            euclidean_val = float(euclidean_match.group(1)) if euclidean_match else None
-            cosine_val = float(cosine_match.group(1)) if cosine_match else None
+        if layer_match and euclidean_match and cosine_match:
+            layer_name = layer_match.group(2).strip()
+            euclidean_val = float(euclidean_match.group(1))
+            cosine_val = float(cosine_match.group(1))
             
             data.append({
                 'layer': layer_name,
@@ -30,41 +29,58 @@ with open(file_path, 'r') as f:
                 'cosine_norm': cosine_val
             })
 
-# 转换为 DataFrame
+# Convert to DataFrame
 df = pd.DataFrame(data)
 
-# 打印列名和前几行数据以确保正确解析
-print("DataFrame 列名:", df.columns.tolist())
-print("DataFrame 前几行数据:")
-print(df.head())
+# Create dual Y-axis chart
+fig, ax1 = plt.subplots(figsize=(16, 10))
 
-# 删除两列都是NaN的行（如果有的话）
-df.dropna(subset=['euclidean_norm', 'cosine_norm'], how='all', inplace=True)
+# Plot Euclidean norm (left Y-axis)
+color_euclidean = 'blue'
+line1 = ax1.plot(range(len(df)), df['euclidean_norm'], 
+                 color=color_euclidean, linewidth=1.5, marker='o', 
+                 markersize=4, label='Euclidean Norm')
+ax1.set_xlabel('Layers', fontsize=12)
+ax1.set_ylabel('Euclidean Norm', color=color_euclidean, fontsize=12)
+ax1.tick_params(axis='y', labelcolor=color_euclidean)
+ax1.set_ylim(0, max(df['euclidean_norm']) * 1.1)  # Set Y-axis range
 
-# 创建带双Y轴的子图
-fig = make_subplots(specs=[[{"secondary_y": True}]])
+# Create second Y-axis (right) for cosine similarity
+ax2 = ax1.twinx()
+color_cosine = 'red'
+line2 = ax2.plot(range(len(df)), df['cosine_norm'], 
+                 color=color_cosine, linewidth=1.5, marker='s', 
+                 markersize=4, label='Cosine Similarity')
+ax2.set_ylabel('Cosine Similarity', color=color_cosine, fontsize=12)
+ax2.tick_params(axis='y', labelcolor=color_cosine)
+ax2.set_ylim(min(df['cosine_norm']) * 0.999, 1.0005)  # Set Y-axis range
 
-# 添加欧几里得范数数据 (左轴)
-fig.add_trace(
-    go.Scatter(x=df['layer'], y=df['euclidean_norm'], name="Euclidean Norm", mode='lines+markers'),
-    secondary_y=False,
-)
+# Set X-axis tick labels as layer names (shortened for display)
+short_names = []
+for name in df['layer']:
+    # Extract meaningful short names
+    parts = name.split('_')
+    if len(parts) > 3:
+        short_name = f"{parts[0]}_{parts[2]}_{parts[-1]}"
+    else:
+        short_name = name
+    short_names.append(short_name)
 
-# 添加余弦范数数据 (右轴)
-fig.add_trace(
-    go.Scatter(x=df['layer'], y=df['cosine_norm'], name="Cosine Norm", mode='lines+markers'),
-    secondary_y=True,
-)
+plt.xticks(range(len(df)), short_names, rotation=45, ha='right')
 
-# 设置轴标签
-fig.update_xaxes(title_text="Layer Name")
-fig.update_yaxes(title_text="<b>Euclidean</b> Norm", secondary_y=False)
-fig.update_yaxes(title_text="<b>Cosine</b> Norm", secondary_y=True)
+# Add combined legend
+lines = line1 + line2
+labels = [l.get_label() for l in lines]
+ax1.legend(lines, labels, loc='upper left', frameon=True, 
+           fancybox=True, shadow=True, fontsize=10)
 
-# 旋转X轴标签
-fig.update_layout(
-    xaxis_tickangle=-45,
-    title="RKNN Quantization Error Analysis by Layer"
-)
+# Add title and grid
+plt.title('RKNN Model Quantization Error - Complete Execution', fontsize=14, pad=20)
+ax1.grid(True, linestyle=':', alpha=0.7)
 
-fig.show()
+# Adjust layout and display
+plt.tight_layout()
+plt.show()
+
+# Save chart (optional)
+plt.savefig('../log/individual_qnt_error_analysis.png', dpi=300, bbox_inches='tight')
