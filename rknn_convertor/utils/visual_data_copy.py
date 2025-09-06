@@ -75,7 +75,8 @@ ax1.legend(lines, labels, loc='upper left', frameon=True,
            fancybox=True, shadow=True, fontsize=10)
 
 # Add title and grid
-plt.title('RKNN Model Quantization Error - Layer-by-Layer Analysis', fontsize=14, pad=20)
+plt.title('RKNN Model Quantization Error - Complete Execution', fontsize=14, pad=20)
+# plt.title('RKNN Model Layer-wise Quantization Error Analysis', fontsize=14, pad=20)
 ax1.grid(True, linestyle=':', alpha=0.7)
 
 # Adjust layout and display
@@ -83,4 +84,4 @@ plt.tight_layout()
 plt.show()
 
 # Save chart (optional)
-plt.savefig('../log/entire_qnt_error_analysis.png', dpi=300, bbox_inches='tight')
+plt.savefig('../log/quantization_error_analysis.png', dpi=300, bbox_inches='tight')

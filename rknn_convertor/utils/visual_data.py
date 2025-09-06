@@ -75,7 +75,7 @@ ax1.legend(lines, labels, loc='upper left', frameon=True,
            fancybox=True, shadow=True, fontsize=10)
 
 # Add title and grid
-plt.title('RKNN Model Quantization Error - Complete Execution', fontsize=14, pad=20)
+plt.title('RKNN Model Quantization Error - Layer-by-Layer Analysis', fontsize=14, pad=20)
 ax1.grid(True, linestyle=':', alpha=0.7)
 
 # Adjust layout and display
